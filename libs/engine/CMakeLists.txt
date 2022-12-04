@@ -4,7 +4,7 @@ set(PROJECT_NAME Engine)
 # Source groups
 ################################################################################
 set(Header_Files
-    "src/Core.h"
+    "src/SkaiaCore.h"
     "src/GameApplication.h"
     "src/Types.h"
 )
