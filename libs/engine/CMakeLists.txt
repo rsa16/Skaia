@@ -105,7 +105,7 @@ if(MSVC)
             /permissive-;
             /sdl;
             /W3;
-            /std:c++latest;
+            /std:c++20;
             ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
             ${DEFAULT_CXX_EXCEPTION_HANDLING}
         )
@@ -118,7 +118,7 @@ if(MSVC)
             /permissive-;
             /sdl;
             /W3;
-            /std:c++latest;
+            /std:c++20;
             ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
             ${DEFAULT_CXX_EXCEPTION_HANDLING}
         )
@@ -130,7 +130,7 @@ if(MSVC)
                 /OPT:ICF
             >
             /DEBUG;
-            /std:c++latest;
+            /std:c++20;
             /SUBSYSTEM:CONSOLE
         )
     elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
@@ -140,7 +140,7 @@ if(MSVC)
                 /OPT:ICF
             >
             /DEBUG;
-            /std:c++latest;
+            /std:c++20;
             /SUBSYSTEM:CONSOLE
         )
     endif()
@@ -154,16 +154,16 @@ if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
         TARGET ${PROJECT_NAME}
         POST_BUILD
         COMMANDS
-        COMMAND   $<CONFIG:Debug> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>x64\\Debug\\Engine.dll
-        COMMAND $<CONFIG:Release> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>x64\\Debug\\Engine.dll
+        COMMAND   $<CONFIG:Debug> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>bin\\Engine.dll
+        COMMAND $<CONFIG:Release> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>bin\\Engine.dll
     )
 elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
     add_custom_command_if(
         TARGET ${PROJECT_NAME}
         POST_BUILD
         COMMANDS
-        COMMAND   $<CONFIG:Debug> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>x64\\Debug\\Engine.dll
-        COMMAND $<CONFIG:Release> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>x64\\Debug\\Engine.dll
+        COMMAND   $<CONFIG:Debug> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>bin\\Engine.dll
+        COMMAND $<CONFIG:Release> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>bin\\Engine.dll
     )
 endif()
 
