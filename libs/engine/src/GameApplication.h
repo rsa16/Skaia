@@ -9,7 +9,7 @@
 #pragma once
 #include <map>
 #include <SDL.h>
-#include "Core.h"
+#include "SkaiaCore.h"
 #include <iostream>
 #include <vector>
 
@@ -18,13 +18,6 @@
 #include "Window.h"
 #include "Input.h"
 #undef main
-
-#ifdef ENGINE_EXPORTS
-#define ENGINE_API __declspec(dllexport)
-#else
-#define ENGINE_API __declspec(dllimport)
-#endif
-
 
 class ENGINE_API GameApplication
 {
