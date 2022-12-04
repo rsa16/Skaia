@@ -11,6 +11,28 @@
 #include <cstdint>
 #undef main
 
+#if defined(_MSC_VER)
+    //  Microsoft 
+    #define ENGINE_API_EXPORT __declspec(dllexport)
+    #define ENGINE_API_IMPORT __declspec(dllimport)
+#elif defined(__GNUC__)
+    //  GCC
+    #define ENGINE_API_EXPORT  __attribute__((visibility("default")))
+    #define ENGINE_API_IMPORT
+#else
+    //  do nothing and hope for the best?
+    #define ENGINE_API_EXPORT
+    #define ENGINE_API_IMPORT
+    #pragma warning Unknown dynamic link import/export semantics.
+#endif
+
+#ifdef ENGINE_EXPORTS
+#	define ENGINE_API ENGINE_API_EXPORT
+#else
+#	define ENGINE_API ENGINE_API_IMPORT
+#endif
+
+
 using std::string;
 
 // ECSs

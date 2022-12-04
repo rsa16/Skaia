@@ -7,15 +7,9 @@
 */
 
 #pragma once
-#include "Core.h"
+#include "SkaiaCore.h"
 #include "SDL.h"
 #undef main
-
-#ifdef ENGINE_EXPORTS
-#define ENGINE_API __declspec(dllexport)
-#else
-#define ENGINE_API __declspec(dllimport)
-#endif
 
 struct ENGINE_API Input
 {
