@@ -42,7 +42,6 @@ void DebugSystem::Update() {
 		auto& entityInputComponent = coordinator->GetComponent<Input>(entity);
 		if (entityInputComponent.UP_PRESSED)
 		{
-			std::cout << "up is pressed" << "\n";
 		}
 	}
 }

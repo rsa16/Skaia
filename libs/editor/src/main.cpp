@@ -20,7 +20,7 @@
 
 SkaiaCore::Coordinator coordinator;
 
-class CustomSystem : SkaiaCore::System {
+class CustomSystem : public SkaiaCore::System {
 private:
 	SkaiaCore::Coordinator* coordinator;
 
@@ -44,20 +44,30 @@ public:
 			auto& entityInputComp = coordinator->GetComponent<Input>(entity);
 			auto& entityTransform = coordinator->GetComponent<Transform>(entity);
 
-			if (entityInputComp.UP_PRESSED)
-			{
-				entityTransform.y += 10;
+			if (entityInputComp.DOWN_PRESSED) {
+				entityTransform.y += 10.0;
+			}
+			
+			if (entityInputComp.UP_PRESSED) {
+				entityTransform.y -= 10.0;
+			}
+			
+			if (entityInputComp.LEFT_PRESSED) {
+				entityTransform.x -= 10.0;
+			}
+			
+			if (entityInputComp.RIGHT_PRESSED) {
+				entityTransform.x += 10.0;
 			}
 		}
 	};
 };
 
-int main()
+int main(int argc, char* argv[])
 {	
 	GameApplication* game = new GameApplication(&coordinator, "Farming Sim", 500, 600);
 
-	auto system = coordinator.RegisterSystem<CustomSystem>();
-	game->mSystems.insert(std::make_pair(std::type_index(typeid(CustomSystem)), system));
+	game->TrackSystem<CustomSystem>();
 	
 	// initialize the game
 	game->Initialize();
@@ -65,15 +75,15 @@ int main()
 	Entity rect = coordinator.CreateEntity();
 	coordinator.AddComponent<Transform>(rect, 
 		Transform {
-			.x = 0,
-			.y = 0,
+			.x = (500 / 2) - (100 / 2),
+			.y = (600 / 2) - (100 / 2),
 			.width = 100,
 			.height = 100
 		});
 		
 	coordinator.AddComponent<Sprite>(rect, 
 		Sprite {
-			.color = { 255, 0, 0 }
+			.color = { 0, 255, 255 }
 		});
 
 	coordinator.AddComponent<Input>(rect, Input{});

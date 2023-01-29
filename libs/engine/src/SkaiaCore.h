@@ -216,11 +216,11 @@ namespace SkaiaCore {
 
 	public:
 		template<typename T>
-		std::shared_ptr<T> RegisterSystem(Coordinator* c)
+		std::shared_ptr<System> RegisterSystem(Coordinator* c)
 		{
 			const char* typeName = typeid(T).name();
 			assert(mSystems.find(typeName) == mSystems.end() && "Registering system more than once.");
-			auto system = std::make_shared<T>(c);
+			std::shared_ptr<System> system = std::static_pointer_cast<System>(std::make_shared<T>(c));
 			mSystems.insert({ typeName, system });
 			return system;
 		}
@@ -334,7 +334,7 @@ namespace SkaiaCore {
 
 		// system methods
 		template<typename T>
-		std::shared_ptr<T> RegisterSystem()
+		std::shared_ptr<System> RegisterSystem()
 		{
 			return mSystemManager->RegisterSystem<T>(this);
 		}

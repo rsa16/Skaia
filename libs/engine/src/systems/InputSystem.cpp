@@ -50,10 +50,21 @@ bool InputSystem::HandleInput(SDL_Event ev)
 	for (auto const& entity : mEntities)
 	{
 		auto& entityInputComponent = coordinator->GetComponent<Input>(entity);
-		entityInputComponent.UP_PRESSED = (ev.type == entityInputComponent.KEYDOWN_EVENT && ev.key.keysym.sym == entityInputComponent.UP);
-		entityInputComponent.DOWN_PRESSED = (ev.type == entityInputComponent.KEYDOWN_EVENT && ev.key.keysym.sym == entityInputComponent.DOWN);
-		entityInputComponent.LEFT_PRESSED = (ev.type == entityInputComponent.KEYDOWN_EVENT && ev.key.keysym.sym == entityInputComponent.LEFT);
-		entityInputComponent.RIGHT_PRESSED = (ev.type == entityInputComponent.KEYDOWN_EVENT && ev.key.keysym.sym == entityInputComponent.RIGHT);
+
+        if (ev.type == entityInputComponent.KEYDOWN_EVENT)
+        {
+            entityInputComponent.UP_PRESSED = (ev.key.keysym.sym == entityInputComponent.UP ? true : entityInputComponent.UP_PRESSED);
+            entityInputComponent.DOWN_PRESSED = (ev.key.keysym.sym == entityInputComponent.DOWN ? true : entityInputComponent.DOWN_PRESSED);
+            entityInputComponent.LEFT_PRESSED = (ev.key.keysym.sym == entityInputComponent.LEFT ? true : entityInputComponent.LEFT_PRESSED);
+            entityInputComponent.RIGHT_PRESSED = (ev.key.keysym.sym == entityInputComponent.RIGHT ? true : entityInputComponent.RIGHT_PRESSED);
+
+        } else if (ev.type == entityInputComponent.KEYUP_EVENT)
+        {
+            entityInputComponent.UP_PRESSED = (ev.key.keysym.sym == entityInputComponent.UP ? false : entityInputComponent.UP_PRESSED);
+            entityInputComponent.DOWN_PRESSED = (ev.key.keysym.sym == entityInputComponent.DOWN ? false : entityInputComponent.DOWN_PRESSED);
+            entityInputComponent.LEFT_PRESSED = (ev.key.keysym.sym == entityInputComponent.LEFT ? false : entityInputComponent.LEFT_PRESSED);
+            entityInputComponent.RIGHT_PRESSED = (ev.key.keysym.sym == entityInputComponent.RIGHT ? false : entityInputComponent.RIGHT_PRESSED);
+        }
 	}
 	return true;
 }

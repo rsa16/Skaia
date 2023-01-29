@@ -34,6 +34,13 @@ void RenderSystem::Initialize(void* data)
 
 void RenderSystem::Render()
 {
+    SDL_RenderPresent(pRenderer);
+}
+
+void RenderSystem::Update() {
+    SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
+	SDL_RenderClear(pRenderer);
+
     for (auto const& entity : mEntities)
 	{
         auto& entityTransform = coordinator->GetComponent<Transform>(entity);
@@ -48,11 +55,6 @@ void RenderSystem::Render()
             SDL_RenderFillRect(pRenderer, &fillRect);
         }
 	}
-
-}
-
-void RenderSystem::Update() {
-    SDL_RenderPresent(pRenderer);
 }
 
 void RenderSystem::Cleanup()
