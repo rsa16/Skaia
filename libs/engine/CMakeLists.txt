@@ -7,33 +7,46 @@ set(Header_Files
     "src/SkaiaCore.h"
     "src/GameApplication.h"
     "src/Types.h"
+    "src/behaviors/SkaiaImaging.h"
 )
 source_group("Header Files" FILES ${Header_Files})
 
-set(Header_Files__Core_Behaviors
-    "src/Debug.h"
-    "src/Input.h"
-    "src/Window.h"
+set(Header_Files__Components
+    "src/components/Debug.h"
+    "src/components/Input.h"
+    "src/components/Window.h"
+    "src/components/Transform.h"
+    "src/components/Sprite.h"
 )
-source_group("Header Files\\Core Behaviors" FILES ${Header_Files__Core_Behaviors})
+source_group("Header Files\\Core Behaviors" FILES ${Header_Files__Components})
+
+set(Header_Files__Systems
+    "src/systems/DebugSystem.h"
+    "src/systems/InputSystem.h"
+    "src/systems/RenderSystem.h"
+    "src/systems/WindowSystem.h"
+)
+
+set(Resource_Files__Source_Files__Systems
+    "src/systems/DebugSystem.cpp"
+    "src/systems/InputSystem.cpp"
+    "src/systems/RenderSystem.cpp"
+    "src/systems/WindowSystem.cpp"
+)
+source_group("Resource Files\\Source Files\\Systems" FILES ${Resource_Files__Source_Files__Systems})
 
 set(Resource_Files__Source_Files
     "src/GameApplication.cpp"
+    "src/behaviors/SkaiaImaging.cpp"
 )
 source_group("Resource Files\\Source Files" FILES ${Resource_Files__Source_Files})
 
-set(Resource_Files__Source_Files__Core_Behaviors
-    "src/Debug.cpp"
-    "src/Input.cpp"
-    "src/Window.cpp"
-)
-source_group("Resource Files\\Source Files\\Core Behaviors" FILES ${Resource_Files__Source_Files__Core_Behaviors})
-
 set(ALL_FILES
     ${Header_Files}
-    ${Header_Files__Core_Behaviors}
+    ${Header_Files__Components}
+    ${Header_Files__Systems}
+    ${Resource_Files__Source_Files__Systems}
     ${Resource_Files__Source_Files}
-    ${Resource_Files__Source_Files__Core_Behaviors}
 )
 
 ################################################################################
@@ -72,6 +85,7 @@ if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
     target_include_directories(${PROJECT_NAME} PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/../../external/sdl_image/include;"
         "${CMAKE_CURRENT_SOURCE_DIR}/../../external/sdl/include;"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src"
     )
 endif()
 
@@ -105,7 +119,7 @@ if(MSVC)
             /permissive-;
             /sdl;
             /W3;
-            /std:c++20;
+            /std:c++latest;
             ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
             ${DEFAULT_CXX_EXCEPTION_HANDLING}
         )
@@ -118,7 +132,7 @@ if(MSVC)
             /permissive-;
             /sdl;
             /W3;
-            /std:c++20;
+            /std:c++latest;
             ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
             ${DEFAULT_CXX_EXCEPTION_HANDLING}
         )
@@ -130,8 +144,8 @@ if(MSVC)
                 /OPT:ICF
             >
             /DEBUG;
-            /std:c++20;
-            /SUBSYSTEM:CONSOLE
+            /std:c++latest;
+            /SUBSYSTEM:WINDOWS
         )
     elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
         target_link_options(${PROJECT_NAME} PRIVATE
@@ -140,8 +154,8 @@ if(MSVC)
                 /OPT:ICF
             >
             /DEBUG;
-            /std:c++20;
-            /SUBSYSTEM:CONSOLE
+            /std:c++latest;
+            /SUBSYSTEM:WINDOWS
         )
     endif()
 endif()
@@ -154,7 +168,7 @@ if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
         TARGET ${PROJECT_NAME}
         POST_BUILD
         COMMANDS
-        COMMAND   $<CONFIG:Debug> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>bin\\Engine.dll
+        COMMAND $<CONFIG:Debug> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>bin\\Engine.dll
         COMMAND $<CONFIG:Release> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>bin\\Engine.dll
     )
 elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")

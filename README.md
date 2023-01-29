@@ -1,9 +1,7 @@
 # Skaia Engine
 A general-purpose, ECS-driven (Entity Component System), 2d game engine created by a single individual with no particular goal. The engine is flexible and can be powerful if used correctly however is not reccomended for use of actual development over engines such as Unity and Godot. The engine was created for learning purposes.
 
-This project is currently in development and is not useable whatsoever. Until the project reaches its alpha stages (a point where its even somewhat useable), please do not submit pull requests or attempt to build it. I'm not even sure if cmake is going to work properly on other systems.
-
-*This project adheres to the Pitchfork File Structure guide lines described [here](https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs)*
+This project is currently in development and is not useable whatsoever. Until the project reaches its alpha stages (a point where its even somewhat useable), please do not submit pull requests. Currently, Skaia compiles on Windows and Linux with slight hitches, documented in the Building From Source section. While it should compile on Mac as well, I have no way to test whether it works or not, as I do not have a MacBook or a virtual machine of one in possession.
 
 ## Features
 Most of these features are not implemented yet but we are planning to add them.
@@ -34,6 +32,8 @@ Most of these features are not implemented yet but we are planning to add them.
 ## Building From Source
 The project uses cmake (because its more or less the standard build system generator) for building. The project builds just like any other cmake project.
 ```
+$ git clone https://github.com/rsa16/Skaia
+$ cd Skaia
 $ mkdir build
 $ cd build
 $ cmake ..
@@ -44,6 +44,8 @@ $ cmake --build . --config Release
 ## OR ##
 $ cmake -- build . --config Debug
 ```
+
+
 ## File Structure
 ```
 ├───build

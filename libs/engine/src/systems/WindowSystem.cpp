@@ -5,25 +5,28 @@
   This source code is licensed under the BSD-style license found in the
   LICENSE file in the root directory of this source tree.
 */
-
-#include "Window.h"
 #include <SDL.h>
 #include <iostream>
 #include <sstream>
 #include <SDL_image.h>
-#undef main
+
+#include "systems/WindowSystem.h"
+
+#ifdef _DEBUG
+	#undef main
+#endif
 
 WindowSystem::WindowSystem(SkaiaCore::Coordinator* c)
 {
 	coordinator = c;
-}
 
-void WindowSystem::Initialize()
-{
-	Signature signature;
+    Signature signature;
 	signature.set(coordinator->GetComponentType<Window>());
 	coordinator->SetSystemSignature<WindowSystem>(signature);
+}
 
+void WindowSystem::Initialize(void* data)
+{
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		std::stringstream buffer;
 		buffer << "Could not initialize SDL properly, here is the error: " << SDL_GetError();
@@ -40,8 +43,6 @@ void WindowSystem::Initialize()
 	for (auto const& entity : mEntities)
 	{
 		auto& windowComp = coordinator->GetComponent<Window>(entity);
-		windowComp.pWindow = SDL_CreateWindow(windowComp.title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowComp.width, windowComp.height, SDL_WINDOW_RESIZABLE);
-		windowComp.pRenderer = SDL_CreateRenderer(windowComp.pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 	}
 
 	std::cout << "Window System Initalized" << "\n";
@@ -64,7 +65,6 @@ void WindowSystem::Cleanup()
 		auto const& windowComp = coordinator->GetComponent<Window>(entity);
 
 		SDL_DestroyWindow(windowComp.pWindow);
-		SDL_DestroyRenderer(windowComp.pRenderer);
 		SDL_Quit();
 	}
 }

@@ -122,7 +122,7 @@ if(MSVC)
             >
             /DEBUG;
             /std:c++latest;
-            /SUBSYSTEM:CONSOLE
+            /SUBSYSTEM:WINDOWS
         )
     endif()
 endif()

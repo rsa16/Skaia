@@ -14,19 +14,25 @@
 #include <vector>
 
 // default behaviors
-#include "Debug.h"
-#include "Window.h"
-#include "Input.h"
-#undef main
+#include "systems/DebugSystem.h"
+#include "systems/WindowSystem.h"
+#include "systems/InputSystem.h"
+#include "systems/RenderSystem.h"
+
+#ifdef _DEBUG
+	#undef main
+#endif
 
 class ENGINE_API GameApplication
 {
 private:
 	SDL_Event ev;
+	SDL_Renderer* pRenderer;
 	SkaiaCore::Coordinator* coordinator;
-	std::unordered_map<std::type_index, std::shared_ptr<SkaiaCore::System>> mSystems;
 
 public:
+	std::unordered_map<std::type_index, std::shared_ptr<SkaiaCore::System>> mSystems;
+	
 	GameApplication(SkaiaCore::Coordinator* c, const char* title, int width, int height);
 
 	void Initialize();
@@ -34,11 +40,13 @@ public:
 	void Update();
 	void Cleanup();
 
+	void Start(int FPSLOCK=60);
+
 	template<typename T>
 	void TrackSystem()
 	{
 		auto system = coordinator->RegisterSystem<T>();
-		mSystems.insert({ std::type_index(typeid(T)), system });
+		mSystems.insert(std::make_pair(std::type_index(typeid(T)), system));
 	}
 
 	bool HandleEvents();

@@ -8,7 +8,10 @@
 
 
 #include "GameApplication.h"
-#undef main
+
+#ifdef _DEBUG
+	#undef main
+#endif
 
 GameApplication::GameApplication(SkaiaCore::Coordinator* c, const char* title, int width, int height)
 {
@@ -19,21 +22,48 @@ GameApplication::GameApplication(SkaiaCore::Coordinator* c, const char* title, i
 	coordinator->RegisterComponent<Window>();
 	coordinator->RegisterComponent<Input>();
 	coordinator->RegisterComponent<Debug>();
+	coordinator->RegisterComponent<Transform>();
+	coordinator->RegisterComponent<Sprite>();
 
 	// register default systems
 	TrackSystem<WindowSystem>();
 	TrackSystem<InputSystem>();
 	TrackSystem<DebugSystem>();
+	TrackSystem<RenderSystem>();
+
+	// sdl init stuff
+	SDL_Window* pWindow = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_RESIZABLE);
+	pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 
 	Entity window = coordinator->CreateEntity();
 	coordinator->AddComponent<Window>(window,
 		Window{
-			.title = title,
-			.width = width,
-			.height = height
+			.pWindow = pWindow
 		});
 	coordinator->AddComponent<Input>(window, Input{});
 	coordinator->AddComponent<Debug>(window, Debug{});
+}
+
+void GameApplication::Start(int FPSLOCK)
+{
+	int frameDelay = 1000 / FPSLOCK;
+	Uint32 frameStart;
+	int frameTime;
+
+	while (HandleEvents())
+	{
+		frameStart = SDL_GetTicks();
+
+		// update variables and stuff first then render to view
+		Update();
+		Render();
+
+		frameTime = SDL_GetTicks() - frameStart;
+		if (frameDelay > frameTime)
+		{
+			SDL_Delay(frameDelay - frameTime);
+		}
+	}
 }
 
 void GameApplication::Initialize()
@@ -41,7 +71,7 @@ void GameApplication::Initialize()
 	for (auto const& pair : mSystems)
 	{
 		auto const& system = pair.second;
-		system->Initialize();
+		system->Initialize(pRenderer);
 	}
 }
 

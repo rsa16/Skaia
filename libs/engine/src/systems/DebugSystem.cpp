@@ -9,20 +9,25 @@
 #pragma once
 
 #include <SDL.h>
-#include "Debug.h"
-#include "Input.h"
+#include "systems/DebugSystem.h"
 #include <iostream>
-#undef main
+
+#ifdef _DEBUG
+	#undef main
+#endif
 
 DebugSystem::DebugSystem(SkaiaCore::Coordinator* c) {
 	coordinator = c;
+
+    Signature signature;
+	signature.set(coordinator->GetComponentType<Debug>());
+    signature.set(coordinator->GetComponentType<Input>());
+	coordinator->SetSystemSignature<DebugSystem>(signature);
+
 }
 
-void DebugSystem::Initialize()
+void DebugSystem::Initialize(void* data)
 {
-	Signature signature;
-	signature.set(coordinator->GetComponentType<Debug>());
-	coordinator->SetSystemSignature<DebugSystem>(signature);
 	std::cout << "Debug System Initalized" << "\n";
 }
 

@@ -9,7 +9,10 @@
 #pragma once
 #include <bitset>
 #include <cstdint>
-#undef main
+
+#ifdef _DEBUG
+	#undef main
+#endif
 
 #if defined(_MSC_VER)
     //  Microsoft 

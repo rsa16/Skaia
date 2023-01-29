@@ -8,26 +8,22 @@
 
 #pragma once
 #include "SkaiaCore.h"
-#include "SDL.h"
-#undef main
 
-struct ENGINE_API Window {
-	const char* title;
-	int width;
-	int height;
-	SDL_Renderer* pRenderer = nullptr;
-	SDL_Window* pWindow = nullptr;
-};
+#include "components/Input.h"
+#include "components/Debug.h"
 
-class ENGINE_API WindowSystem :
-	public SkaiaCore::System
+#ifdef _DEBUG
+	#undef main
+#endif
+
+class ENGINE_API DebugSystem : public SkaiaCore::System 
 {
 private:
 	SkaiaCore::Coordinator* coordinator;
 public:
-	WindowSystem(SkaiaCore::Coordinator* c);
+	DebugSystem(SkaiaCore::Coordinator* coordinator);
 	void Update() override;
 	void Render() override;
 	void Cleanup() override;
-	void Initialize() override;
+	void Initialize(void* data = nullptr) override;
 };

@@ -9,20 +9,25 @@
 #pragma once
 
 #include <SDL.h>
-#include "Input.h"
+#include "systems/InputSystem.h"
 #include <iostream>
-#undef main
+
+#ifdef _DEBUG
+	#undef main
+#endif
 
 InputSystem::InputSystem(SkaiaCore::Coordinator* c)
 {
 	coordinator = c;
-}
 
-void InputSystem::Initialize()
-{
-	Signature signature;
+    Signature signature;
 	signature.set(coordinator->GetComponentType<Input>());
 	coordinator->SetSystemSignature<InputSystem>(signature);
+}
+
+void InputSystem::Initialize(void* data)
+{
+    std::cout << "Input System Initialized" << "\n";
 }
 
 void InputSystem::Update()

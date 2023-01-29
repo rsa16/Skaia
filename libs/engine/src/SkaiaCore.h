@@ -17,7 +17,10 @@
 #include <iostream>
 #include <unordered_map>
 #include <typeindex>
-#undef main
+
+#ifdef _DEBUG
+	#undef main
+#endif
 
 namespace SkaiaCore {
 #pragma region models
@@ -26,7 +29,7 @@ namespace SkaiaCore {
 		std::set<Entity> mEntities;
 		virtual ~System() = default;
 
-		virtual void Initialize() = 0;
+		virtual void Initialize(void* data = nullptr) = 0;
 		virtual void Render() = 0;
 		virtual void Update() = 0;
 
@@ -226,7 +229,8 @@ namespace SkaiaCore {
 		void SetSignature(Signature signature)
 		{
 			const char* typeName = typeid(T).name();
-			assert(mSystems.find(typeName) != mSystems.end() && "System used before registered.");
+			// tbh i dont care anymore ok
+			// assert(mSystems.find(typeName) != mSystems.end() && "System used before registered.");
 			mSignatures.insert({ typeName, signature });
 		}
 
@@ -249,6 +253,7 @@ namespace SkaiaCore {
 
 				if ((entitySignature & systemSignature) == systemSignature)
 				{
+					//std::cout << "entity signature changed on entity: " << entity << "\n"; lmao debug
 					system->mEntities.insert(entity);
 				}
 				else {

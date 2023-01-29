@@ -9,7 +9,10 @@
 #pragma once
 #include "SkaiaCore.h"
 #include "SDL.h"
-#undef main
+
+#ifdef _DEBUG
+	#undef main
+#endif
 
 struct ENGINE_API Input
 {
@@ -30,18 +33,4 @@ struct ENGINE_API Input
 	SDL_KeyCode ESCAPE = SDLK_ESCAPE;
 
 	SDL_EventType QUIT = SDL_QUIT;
-};
-
-class ENGINE_API InputSystem :
-	public SkaiaCore::System
-{
-private:
-	SkaiaCore::Coordinator* coordinator;
-public:
-	InputSystem(SkaiaCore::Coordinator* c);
-	void Update() override;
-	void Render() override;
-	void Cleanup() override;
-	void Initialize() override;
-	bool HandleInput(SDL_Event ev);
 };
