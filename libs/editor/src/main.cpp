@@ -7,39 +7,77 @@
 */
 
 #include "GameApplication.h"
+#include "components/Transform.h"
+#include "components/Sprite.h"
+
 #include "SDL.h"
 #include "SDL_Image.h"
 #include <sstream>
-#undef main
+
+#ifdef _DEBUG
+	#undef main
+#endif
 
 SkaiaCore::Coordinator coordinator;
 
-const int FPSLOCK = 60;
-const int frameDelay = 1000 / FPSLOCK;
+class CustomSystem : SkaiaCore::System {
+private:
+	SkaiaCore::Coordinator* coordinator;
+
+public:
+	CustomSystem(SkaiaCore::Coordinator* c) {
+		coordinator = c;
+
+		Signature signature;
+		signature.set(coordinator->GetComponentType<Input>());
+		signature.set(coordinator->GetComponentType<Transform>());
+		coordinator->SetSystemSignature<CustomSystem>(signature);
+	};
+
+	void Initialize(void* data = nullptr) override {};
+	void Render() override {};
+	void Cleanup() override {};
+
+	void Update() override {
+		for (auto const& entity : mEntities)
+		{
+			auto& entityInputComp = coordinator->GetComponent<Input>(entity);
+			auto& entityTransform = coordinator->GetComponent<Transform>(entity);
+
+			if (entityInputComp.UP_PRESSED)
+			{
+				entityTransform.y += 10;
+			}
+		}
+	};
+};
 
 int main()
 {	
-	Uint32 frameStart;
-	int frameTime;
-
 	GameApplication* game = new GameApplication(&coordinator, "Farming Sim", 500, 600);
+
+	auto system = coordinator.RegisterSystem<CustomSystem>();
+	game->mSystems.insert(std::make_pair(std::type_index(typeid(CustomSystem)), system));
 	
-	// initialize
+	// initialize the game
 	game->Initialize();
+	
+	Entity rect = coordinator.CreateEntity();
+	coordinator.AddComponent<Transform>(rect, 
+		Transform {
+			.x = 0,
+			.y = 0,
+			.width = 100,
+			.height = 100
+		});
+		
+	coordinator.AddComponent<Sprite>(rect, 
+		Sprite {
+			.color = { 255, 0, 0 }
+		});
 
-	while (game->HandleEvents())
-	{
-		frameStart = SDL_GetTicks();
+	coordinator.AddComponent<Input>(rect, Input{});
 
-		game->Render();
-		game->Update();
-
-		frameTime = SDL_GetTicks() - frameStart;
-		if (frameDelay > frameTime)
-		{
-			SDL_Delay(frameDelay - frameTime);
-		}
-	}
-
+	game->Start();
 	return 0;
 }
