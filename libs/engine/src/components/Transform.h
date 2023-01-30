@@ -13,7 +13,7 @@
 	#undef main
 #endif
 
-struct ENGINE_API Transform 
+struct ENGINE_API S_Transform 
 {
     float x, y;
     int width, height;

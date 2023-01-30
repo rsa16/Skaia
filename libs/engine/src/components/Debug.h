@@ -13,4 +13,4 @@
 	#undef main
 #endif
 
-struct ENGINE_API Debug {};
+struct ENGINE_API S_Debug {};

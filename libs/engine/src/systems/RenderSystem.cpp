@@ -16,48 +16,48 @@
 	#undef main
 #endif
 
-RenderSystem::RenderSystem(SkaiaCore::Coordinator* c) {
+S_RenderSystem::S_RenderSystem(SkaiaCore::Coordinator* c) {
 	coordinator = c;
 
     Signature signature;
-    signature.set(coordinator->GetComponentType<Transform>());
-	signature.set(coordinator->GetComponentType<Sprite>());
-	coordinator->SetSystemSignature<RenderSystem>(signature);
+    signature.set(coordinator->GetComponentType<S_Transform>());
+	signature.set(coordinator->GetComponentType<S_Sprite>());
+	coordinator->SetSystemSignature<S_RenderSystem>(signature);
 }
 
-void RenderSystem::Initialize(void* data)
+void S_RenderSystem::Initialize(void* data)
 {
     pRenderer = (SDL_Renderer*)data;
 
 	std::cout << "Render System Initalized" << "\n";
 }
 
-void RenderSystem::Render()
+void S_RenderSystem::Render()
 {
     SDL_RenderPresent(pRenderer);
 }
 
-void RenderSystem::Update() {
+void S_RenderSystem::Update() {
     SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(pRenderer);
 
     for (auto const& entity : mEntities)
 	{
-        auto& entityTransform = coordinator->GetComponent<Transform>(entity);
-        auto& entitySprite = coordinator->GetComponent<Sprite>(entity);
+        auto& entityS_Transform = coordinator->GetComponent<S_Transform>(entity);
+        auto& entityS_Sprite = coordinator->GetComponent<S_Sprite>(entity);
 
-        if (entitySprite.color.r == -1)
+        if (entityS_Sprite.color.r == -1)
         {
             // do nothing
         } else {
-            SDL_Rect fillRect = { entityTransform.x, entityTransform.y, entityTransform.width, entityTransform.height };
-            SDL_SetRenderDrawColor(pRenderer, entitySprite.color.r, entitySprite.color.g, entitySprite.color.b, entitySprite.color.a*255);
+            SDL_Rect fillRect = { entityS_Transform.x, entityS_Transform.y, entityS_Transform.width, entityS_Transform.height };
+            SDL_SetRenderDrawColor(pRenderer, entityS_Sprite.color.r, entityS_Sprite.color.g, entityS_Sprite.color.b, entityS_Sprite.color.a*255);
             SDL_RenderFillRect(pRenderer, &fillRect);
         }
 	}
 }
 
-void RenderSystem::Cleanup()
+void S_RenderSystem::Cleanup()
 {
 	// nothing to implement here
 }

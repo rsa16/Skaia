@@ -16,16 +16,17 @@
 	#undef main
 #endif
 
-class ENGINE_API RenderSystem : public SkaiaCore::System 
+class ENGINE_API S_RenderSystem : 
+    public SkaiaCore::System 
 {
-private:
-	SkaiaCore::Coordinator* coordinator;
-    SDL_Renderer* pRenderer;
+    private:
+        SkaiaCore::Coordinator* coordinator;
+        SDL_Renderer* pRenderer;
 
-public:
-	RenderSystem(SkaiaCore::Coordinator* coordinator);
-	void Update() override;
-	void Render() override;
-	void Cleanup() override;
-	void Initialize(void* data = nullptr) override;
+    public:
+        S_RenderSystem(SkaiaCore::Coordinator* coordinator);
+        void Update() override;
+        void Render() override;
+        void Cleanup() override;
+        void Initialize(void* data = nullptr) override;
 };

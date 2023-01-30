@@ -13,10 +13,7 @@
 #include "SDL.h"
 #include "SDL_Image.h"
 #include <sstream>
-
-#ifdef _DEBUG
-	#undef main
-#endif
+#undef main
 
 SkaiaCore::Coordinator coordinator;
 
@@ -29,8 +26,8 @@ public:
 		coordinator = c;
 
 		Signature signature;
-		signature.set(coordinator->GetComponentType<Input>());
-		signature.set(coordinator->GetComponentType<Transform>());
+		signature.set(coordinator->GetComponentType<S_Input>());
+		signature.set(coordinator->GetComponentType<S_Transform>());
 		coordinator->SetSystemSignature<CustomSystem>(signature);
 	};
 
@@ -41,23 +38,23 @@ public:
 	void Update() override {
 		for (auto const& entity : mEntities)
 		{
-			auto& entityInputComp = coordinator->GetComponent<Input>(entity);
-			auto& entityTransform = coordinator->GetComponent<Transform>(entity);
+			auto& entityInputComp = coordinator->GetComponent<S_Input>(entity);
+			auto& entityS_Transform = coordinator->GetComponent<S_Transform>(entity);
 
 			if (entityInputComp.DOWN_PRESSED) {
-				entityTransform.y += 10.0;
+				entityS_Transform.y += 10.0;
 			}
 			
 			if (entityInputComp.UP_PRESSED) {
-				entityTransform.y -= 10.0;
+				entityS_Transform.y -= 10.0;
 			}
 			
 			if (entityInputComp.LEFT_PRESSED) {
-				entityTransform.x -= 10.0;
+				entityS_Transform.x -= 10.0;
 			}
 			
 			if (entityInputComp.RIGHT_PRESSED) {
-				entityTransform.x += 10.0;
+				entityS_Transform.x += 10.0;
 			}
 		}
 	};
@@ -65,28 +62,28 @@ public:
 
 int main(int argc, char* argv[])
 {	
-	GameApplication* game = new GameApplication(&coordinator, "Farming Sim", 500, 600);
+	S_GameApplication* game = new S_GameApplication(&coordinator, "Farming Sim", 500, 600);
 
 	game->TrackSystem<CustomSystem>();
 	
 	// initialize the game
 	game->Initialize();
 	
-	Entity rect = coordinator.CreateEntity();
-	coordinator.AddComponent<Transform>(rect, 
-		Transform {
+	S_Entity rect = coordinator.CreateEntity();
+	coordinator.AddComponent<S_Transform>(rect, 
+		S_Transform {
 			.x = (500 / 2) - (100 / 2),
 			.y = (600 / 2) - (100 / 2),
 			.width = 100,
 			.height = 100
 		});
 		
-	coordinator.AddComponent<Sprite>(rect, 
-		Sprite {
+	coordinator.AddComponent<S_Sprite>(rect, 
+		S_Sprite {
 			.color = { 0, 255, 255 }
 		});
 
-	coordinator.AddComponent<Input>(rect, Input{});
+	coordinator.AddComponent<S_Input>(rect, S_Input{});
 
 	game->Start();
 	return 0;

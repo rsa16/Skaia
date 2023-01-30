@@ -132,19 +132,14 @@ endif()
 ################################################################################
 if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
     set(ADDITIONAL_LIBRARY_DEPENDENCIES
-        "Engine;"
-        "SDL2;"
-        "SDL2_image;"
-        "SDL2main"
+        "SkaiaEngine"
     )
 endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
 if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
     target_link_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../build/external/sdl/Release"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../build/external/sdl_image/Release"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../engine/bin"
+        "${CMAKE_SOURCE_DIR}/bin/"
     )
 endif()
 

@@ -9,11 +9,11 @@
 #pragma once
 #include <map>
 #include <SDL.h>
-#include "SkaiaCore.h"
 #include <iostream>
 #include <vector>
+#include "SkaiaCore.h"
 
-// default behaviors
+// default systems
 #include "systems/DebugSystem.h"
 #include "systems/WindowSystem.h"
 #include "systems/InputSystem.h"
@@ -23,32 +23,32 @@
 	#undef main
 #endif
 
-class ENGINE_API GameApplication
+class ENGINE_API S_GameApplication
 {
-private:
-	SDL_Event ev;
-	SDL_Renderer* pRenderer;
-	SkaiaCore::Coordinator* coordinator;
+	private:
+		SDL_Event ev;
+		SDL_Renderer* pRenderer;
+		SkaiaCore::Coordinator* coordinator;
 
-public:
-	std::unordered_map<std::type_index, std::shared_ptr<SkaiaCore::System>> mSystems;
-	
-	GameApplication(SkaiaCore::Coordinator* c, const char* title, int width, int height);
+	public:
+		std::unordered_map<std::type_index, std::shared_ptr<SkaiaCore::System>> mSystems;
+		
+		S_GameApplication(SkaiaCore::Coordinator* c, const char* title, int width, int height);
 
-	void Initialize();
-	void Render();
-	void Update();
-	void Cleanup();
+		void Initialize();
+		void Render();
+		void Update();
+		void Cleanup();
 
-	void Start(int FPSLOCK=60);
+		void Start(int FPSLOCK=60);
 
-	template<typename T>
-	void TrackSystem()
-	{
-		auto system = coordinator->RegisterSystem<T>();
-		mSystems.insert(std::make_pair(std::type_index(typeid(T)), system));
-	}
+		template<typename T>
+		void TrackSystem()
+		{
+			auto system = coordinator->RegisterSystem<T>();
+			mSystems.insert(std::make_pair(std::type_index(typeid(T)), system));
+		}
 
-	bool HandleEvents();
+		bool HandleEvents();
 };
 

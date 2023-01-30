@@ -16,16 +16,16 @@
 	#undef main
 #endif
 
-class ENGINE_API InputSystem :
+class ENGINE_API S_InputSystem :
 	public SkaiaCore::System
 {
-private:
-	SkaiaCore::Coordinator* coordinator;
-public:
-	InputSystem(SkaiaCore::Coordinator* c);
-	void Update() override;
-	void Render() override;
-	void Cleanup() override;
-	void Initialize(void* data = nullptr) override;
-	bool HandleInput(SDL_Event ev);
+    private:
+        SkaiaCore::Coordinator* coordinator;
+    public:
+        S_InputSystem(SkaiaCore::Coordinator* c);
+        void Update() override;
+        void Render() override;
+        void Cleanup() override;
+        void Initialize(void* data = nullptr) override;
+        bool HandleInput(SDL_Event ev);
 };

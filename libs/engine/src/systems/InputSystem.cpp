@@ -16,40 +16,40 @@
 	#undef main
 #endif
 
-InputSystem::InputSystem(SkaiaCore::Coordinator* c)
+S_InputSystem::S_InputSystem(SkaiaCore::Coordinator* c)
 {
 	coordinator = c;
 
     Signature signature;
-	signature.set(coordinator->GetComponentType<Input>());
-	coordinator->SetSystemSignature<InputSystem>(signature);
+	signature.set(coordinator->GetComponentType<S_Input>());
+	coordinator->SetSystemSignature<S_InputSystem>(signature);
 }
 
-void InputSystem::Initialize(void* data)
+void S_InputSystem::Initialize(void* data)
 {
-    std::cout << "Input System Initialized" << "\n";
+    std::cout << "S_Input System Initialized" << "\n";
 }
 
-void InputSystem::Update()
-{
-	// nothing to do here
-}
-
-void InputSystem::Render()
+void S_InputSystem::Update()
 {
 	// nothing to do here
 }
 
-void InputSystem::Cleanup()
+void S_InputSystem::Render()
 {
 	// nothing to do here
 }
 
-bool InputSystem::HandleInput(SDL_Event ev)
+void S_InputSystem::Cleanup()
+{
+	// nothing to do here
+}
+
+bool S_InputSystem::HandleInput(SDL_Event ev)
 {
 	for (auto const& entity : mEntities)
 	{
-		auto& entityInputComponent = coordinator->GetComponent<Input>(entity);
+		auto& entityInputComponent = coordinator->GetComponent<S_Input>(entity);
 
         if (ev.type == entityInputComponent.KEYDOWN_EVENT)
         {

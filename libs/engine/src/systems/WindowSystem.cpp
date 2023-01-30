@@ -16,16 +16,16 @@
 	#undef main
 #endif
 
-WindowSystem::WindowSystem(SkaiaCore::Coordinator* c)
+S_WindowSystem::S_WindowSystem(SkaiaCore::Coordinator* c)
 {
 	coordinator = c;
 
     Signature signature;
-	signature.set(coordinator->GetComponentType<Window>());
-	coordinator->SetSystemSignature<WindowSystem>(signature);
+	signature.set(coordinator->GetComponentType<S_Window>());
+	coordinator->SetSystemSignature<S_WindowSystem>(signature);
 }
 
-void WindowSystem::Initialize(void* data)
+void S_WindowSystem::Initialize(void* data)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		std::stringstream buffer;
@@ -42,27 +42,27 @@ void WindowSystem::Initialize(void* data)
 
 	for (auto const& entity : mEntities)
 	{
-		auto& windowComp = coordinator->GetComponent<Window>(entity);
+		auto& windowComp = coordinator->GetComponent<S_Window>(entity);
 	}
 
 	std::cout << "Window System Initalized" << "\n";
 }
 
-void WindowSystem::Update()
+void S_WindowSystem::Update()
 {
 	// nothing to do here
 }
 
-void WindowSystem::Render()
+void S_WindowSystem::Render()
 {
 	// nothing to do here
 }
 
-void WindowSystem::Cleanup()
+void S_WindowSystem::Cleanup()
 {
 	for (auto const& entity : mEntities)
 	{
-		auto const& windowComp = coordinator->GetComponent<Window>(entity);
+		auto const& windowComp = coordinator->GetComponent<S_Window>(entity);
 
 		SDL_DestroyWindow(windowComp.pWindow);
 		SDL_Quit();

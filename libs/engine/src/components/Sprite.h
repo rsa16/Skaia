@@ -15,10 +15,11 @@
 	#undef main
 #endif
 
-struct ENGINE_API Sprite 
+struct ENGINE_API S_Sprite 
 {
-    Texture* tex = nullptr;
-    Color color = {0, 0, 0};
+    S_Texture* tex = nullptr;
+    S_Color color = {0, 0, 0};
     bool flipX = false;
     bool flipY = false;
+    bool hasPhysics = false;
 };

@@ -1,4 +1,4 @@
-set(PROJECT_NAME Engine)
+set(PROJECT_NAME SkaiaEngine)
 
 ################################################################################
 # Source groups
@@ -8,6 +8,7 @@ set(Header_Files
     "src/GameApplication.h"
     "src/Types.h"
     "src/behaviors/SkaiaImaging.h"
+    "src/behaviors/SkaiaTimer.h"
 )
 source_group("Header Files" FILES ${Header_Files})
 
@@ -38,6 +39,7 @@ source_group("Resource Files\\Source Files\\Systems" FILES ${Resource_Files__Sou
 set(Resource_Files__Source_Files
     "src/GameApplication.cpp"
     "src/behaviors/SkaiaImaging.cpp"
+    "src/behaviors/SkaiaTimer.cpp"
 )
 source_group("Resource Files\\Source Files" FILES ${Resource_Files__Source_Files})
 
@@ -65,8 +67,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 ################################################################################
 if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
     set_target_properties(${PROJECT_NAME} PROPERTIES
-        OUTPUT_DIRECTORY_DEBUG   "${CMAKE_CURRENT_SOURCE_DIR}/bin/"
-        OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/bin/"
+        OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/bin/"
+        OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/bin/"
     )
 endif()
 if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
@@ -81,122 +83,84 @@ endif()
 ################################################################################
 # Include directories
 ################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    target_include_directories(${PROJECT_NAME} PUBLIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../external/sdl_image/include;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../external/sdl/include;"
-        "${CMAKE_CURRENT_SOURCE_DIR}/src"
-    )
-endif()
+target_include_directories(${PROJECT_NAME} PUBLIC
+    "${CMAKE_SOURCE_DIR}/external/sdl_image"
+    "${CMAKE_SOURCE_DIR}/external/sdl/include"
+    "${CMAKE_SOURCE_DIR}/external/box2d/include"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src"
+)
 
 ################################################################################
 # Compile definitions
 ################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-        "ENGINE_EXPORTS;"
-        "UNICODE;"
-        "_UNICODE"
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    target_compile_definitions(${PROJECT_NAME} PRIVATE
-        "ENGINE_EXPORTS;"
-        "UNICODE;"
-        "_UNICODE"
-    )
-endif()
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    "ENGINE_EXPORTS;"
+    "UNICODE;"
+    "_UNICODE"
+)
 
 ################################################################################
 # Compile and link options
 ################################################################################
 if(MSVC)
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-        target_compile_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Release>:
-                /Oi;
-                /Gy
-            >
-            /permissive-;
-            /sdl;
-            /W3;
-            /std:c++latest;
-            ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
-            ${DEFAULT_CXX_EXCEPTION_HANDLING}
-        )
-    elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-        target_compile_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Release>:
-                /Oi;
-                /Gy
-            >
-            /permissive-;
-            /sdl;
-            /W3;
-            /std:c++latest;
-            ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
-            ${DEFAULT_CXX_EXCEPTION_HANDLING}
-        )
-    endif()
-    if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-        target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Release>:
-                /OPT:REF;
-                /OPT:ICF
-            >
-            /DEBUG;
-            /std:c++latest;
-            /SUBSYSTEM:WINDOWS
-        )
-    elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-        target_link_options(${PROJECT_NAME} PRIVATE
-            $<$<CONFIG:Release>:
-                /OPT:REF;
-                /OPT:ICF
-            >
-            /DEBUG;
-            /std:c++latest;
-            /SUBSYSTEM:WINDOWS
-        )
-    endif()
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Release>:
+            /Oi;
+            /Gy
+        >
+        /permissive-;
+        /sdl;
+        /W3;
+        /std:c++latest;
+        ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
+        ${DEFAULT_CXX_EXCEPTION_HANDLING}
+    )
+    target_link_options(${PROJECT_NAME} PRIVATE
+        $<$<CONFIG:Release>:
+            /OPT:REF;
+            /OPT:ICF
+        >
+        /DEBUG;
+        /std:c++latest;
+        /SUBSYSTEM:WINDOWS
+    )
 endif()
 
 ################################################################################
 # Post build events
 ################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    add_custom_command_if(
-        TARGET ${PROJECT_NAME}
-        POST_BUILD
-        COMMANDS
-        COMMAND $<CONFIG:Debug> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>bin\\Engine.dll
-        COMMAND $<CONFIG:Release> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>bin\\Engine.dll
-    )
-elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
-    add_custom_command_if(
-        TARGET ${PROJECT_NAME}
-        POST_BUILD
-        COMMANDS
-        COMMAND   $<CONFIG:Debug> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>bin\\Engine.dll
-        COMMAND $<CONFIG:Release> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>bin\\Engine.dll
-    )
-endif()
+# if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
+#     add_custom_command_if(
+#         TARGET ${PROJECT_NAME}
+#         POST_BUILD
+#         COMMANDS
+#         COMMAND $<CONFIG:Debug> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>bin\\Engine.dll
+#         COMMAND $<CONFIG:Release> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>bin\\Engine.dll
+#     )
+# elseif("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x86")
+#     add_custom_command_if(
+#         TARGET ${PROJECT_NAME}
+#         POST_BUILD
+#         COMMANDS
+#         COMMAND   $<CONFIG:Debug> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>bin\\Engine.dll
+#         COMMAND $<CONFIG:Release> cp $<SHELL_PATH:${CMAKE_CURRENT_SOURCE_DIR}/>bin\\Engine.dll $<SHELL_PATH:${CMAKE_SOURCE_DIR}/>bin\\Engine.dll
+#     )
+# endif()
 
 ################################################################################
 # Dependencies
 ################################################################################
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    set(ADDITIONAL_LIBRARY_DEPENDENCIES
-        "SDL2;"
-        "SDL2main;"
-        "SDL2_image"
-    )
-endif()
+set(ADDITIONAL_LIBRARY_DEPENDENCIES
+    "SDL2-static"
+    "SDL2main"
+    "SDL2_image-static"
+    "box2d"
+)
 target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
-if("${CMAKE_VS_PLATFORM_NAME}" STREQUAL "x64")
-    target_link_directories(${PROJECT_NAME} PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../build/external/sdl/Release"
-        "${CMAKE_CURRENT_SOURCE_DIR}/../../build/external/sdl_image/Release"
-    )
-endif()
+target_link_directories(${PROJECT_NAME} PRIVATE
+    "${CMAKE_SOURCE_DIR}/build/external/sdl/Release"
+    "${CMAKE_SOURCE_DIR}/build/external/sdl_image/Release"
+    "${CMAKE_SOURCE_DIR}/build/external/box2d/bin/Release"
+)
 

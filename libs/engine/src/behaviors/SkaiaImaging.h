@@ -6,29 +6,50 @@
 	#undef main
 #endif
 
-struct Color {
+struct S_Color {
     float r, g, b;
     float a = 1.0;
 };
 
-class ENGINE_API Texture {
-private:
-    SDL_Texture* mTexture;
-public:
-    Texture();
-    void LoadSDLTex(SDL_Texture* tex);
+class ENGINE_API S_Texture 
+{
+    private:
+        SDL_Texture* mTexture;
+        SDL_Renderer* pRenderer;
+
+        int mWidth;
+        int mHeight;
+
+    public:
+        S_Texture(SDL_Renderer* pr);
+        ~S_Texture();
+
+        bool LoadSDLTex(SDL_Texture* tex);
+        bool LoadFile(std::string filePath);
+
+        // deallocate texture
+        void Free();
+
+        // render at coordinate
+        void Render(int x, int y);
+
+        // image dimensions
+        int GetWidth();
+        int GetHeight();
+
 };
 
-class ENGINE_API Image {
-private:
-    SDL_Texture* mTexture;
-    SDL_Renderer* pRenderer;
+class ENGINE_API S_Image 
+{
+    private:
+        SDL_Texture* mTexture;
+        SDL_Renderer* pRenderer;
 
-public:
-    Image(SDL_Renderer* pRenderer, const char* imagePath = nullptr);
+    public:
+        S_Image(SDL_Renderer* pRenderer, const char* imagePath = nullptr);
 
-    void Save(const char* fileName);
-    Texture AsTexture();
-    static Image Load(const char* imagePath);
-    static void Save(SDL_Surface surf, const char* fileName);
+        void Save(const char* fileName);
+        S_Texture AsTexture();
+        static S_Image Load(const char* imagePath);
+        static void Save(SDL_Surface surf, const char* fileName);
 };

@@ -14,7 +14,7 @@
 	#undef main
 #endif
 
-struct ENGINE_API Input
+struct ENGINE_API S_Input
 {
 	SDL_EventType KEYUP_EVENT = SDL_KEYUP;
 	SDL_EventType KEYDOWN_EVENT = SDL_KEYDOWN;
