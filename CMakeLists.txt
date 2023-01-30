@@ -82,8 +82,14 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 ################################################################################
 # Sub-projects
 ################################################################################
+option(BUILD_SHARED_LIBS "" OFF)
+option(BOX2D_BUILD_DOCS "" OFF)
+option(BOX2D_BUILD_TESTBED "" OFF)
+option(BOX2D_BUILD_UNIT_TESTS "" OFF)
+
 add_subdirectory(external/sdl)
 add_subdirectory(external/sdl_image)
+add_subdirectory(external/box2d)
 
 add_subdirectory(libs/engine)
 add_subdirectory(libs/editor)
