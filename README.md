@@ -8,22 +8,24 @@ This project is currently in development and is not useable whatsoever. Until th
 ## Features
 Most of these features are not implemented yet but we are planning to add them.
 ### Barebone
-- A rendering engine (SDL)
+- A rendering engine (SDL) ✓
 - Math utilities
 - Physics Engine (maybe integrate Box2d?)
-- Game loop (update, render, that kinda thing)
-- Input System
-- Debug System
+- Game loop (update, render, that kinda thing) ✓
+- Input System ✓
+- Debug System ✓
 
 ### Core
+- Game Mechanisms (Entities, Systems, Components) ✓
 - Audio System
 - Level System
 - Animation
 - File System
 - Camera
 - Basic Meshes
-- Textures
+- Textures ✓
 - Collisions
+- Timers ✓
 
 ### Extras
 - Network
@@ -65,7 +67,6 @@ $ cmake -- build . --config Debug
     ├───engine
     │   ├───docs
     │   ├───src
-    │   └───bin
     └───ght
         └───docs
 ```
@@ -74,4 +75,4 @@ $ cmake -- build . --config Debug
 - `examples` is for examples on how to use the engine correctly, which we have not implmented
 - `bin`is where all executable files will be placed
 - `external` is the location of all our third party submodules
-- `libs`our subprojects, editor, engine, and the game header tool
+- `libs` our subprojects, editor, engine, and the game header tool
