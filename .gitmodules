@@ -1,9 +1,15 @@
-[submodule "external/sdl"]
-	path = external/sdl
-	url = https://github.com/libsdl-org/SDL
-[submodule "external/sdl_image"]
-	path = external/sdl_image
-	url = https://github.com/libsdl-org/SDL_image
 [submodule "external/box2d"]
 	path = external/box2d
 	url = https://github.com/erincatto/box2d
+[submodule "external/sdl_ttf"]
+	path = external/sdl_ttf
+	url = https://github.com/libsdl-org/SDL_ttf.git
+	branch = SDL2
+[submodule "external/sdl"]
+	path = external/sdl
+	url = https://github.com/libsdl-org/SDL.git
+	branch = SDL2
+[submodule "external/sdl_image"]
+	path = external/sdl_image
+	url = https://github.com/libsdl-org/SDL_image
+	branch = SDL2
