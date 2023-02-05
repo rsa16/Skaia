@@ -13,22 +13,23 @@
 #include <iostream>
 
 #ifdef _DEBUG
-	#undef main
+#undef main
 #endif
 
-S_DebugSystem::S_DebugSystem(SkaiaCore::Coordinator* c) {
+S_DebugSystem::S_DebugSystem(SkaiaCore::Coordinator *c)
+{
 	coordinator = c;
 
-    Signature signature;
+	Signature signature;
 	signature.set(coordinator->GetComponentType<S_Debug>());
-    signature.set(coordinator->GetComponentType<S_Input>());
+	signature.set(coordinator->GetComponentType<S_Input>());
 	coordinator->SetSystemSignature<S_DebugSystem>(signature);
-
 }
 
-void S_DebugSystem::Initialize(void* data)
+void S_DebugSystem::Initialize(void *data)
 {
-	std::cout << "Debug System Initalized" << "\n";
+	std::cout << "Debug System Initalized"
+			  << "\n";
 }
 
 void S_DebugSystem::Render()
@@ -36,10 +37,11 @@ void S_DebugSystem::Render()
 	// nothing to implement here
 }
 
-void S_DebugSystem::Update() {
-	for (auto const& entity : mEntities)
+void S_DebugSystem::Update()
+{
+	for (auto const &entity : mEntities)
 	{
-		auto& entityInputComponent = coordinator->GetComponent<S_Input>(entity);
+		auto &entityInputComponent = coordinator->GetComponent<S_Input>(entity);
 		if (entityInputComponent.UP_PRESSED)
 		{
 		}
@@ -50,4 +52,3 @@ void S_DebugSystem::Cleanup()
 {
 	// nothing to implement here
 }
-	

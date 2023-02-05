@@ -1,6 +1,7 @@
 #include <SDL.h>
+#include "Types.h"
 
-class S_Timer 
+class ENGINE_API S_Timer 
 {
     private:
         Uint32 mStartTicks;

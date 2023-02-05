@@ -86,6 +86,7 @@ endif()
 target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_SOURCE_DIR}/external/sdl_image"
     "${CMAKE_SOURCE_DIR}/external/sdl/include"
+    "${CMAKE_SOURCE_DIR}/external/sdl_ttf"
     "${CMAKE_SOURCE_DIR}/external/box2d/include"
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
 )
@@ -154,6 +155,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
     "SDL2-static"
     "SDL2main"
     "SDL2_image-static"
+    "SDL2_ttf"
     "box2d"
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
@@ -161,6 +163,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES
 target_link_directories(${PROJECT_NAME} PRIVATE
     "${CMAKE_SOURCE_DIR}/build/external/sdl/Release"
     "${CMAKE_SOURCE_DIR}/build/external/sdl_image/Release"
+    "${CMAKE_SOURCE_DIR}/build/external/sdl_ttf/Release"
     "${CMAKE_SOURCE_DIR}/build/external/box2d/bin/Release"
 )
 

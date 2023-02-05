@@ -9,6 +9,7 @@
 #include <iostream>
 #include <sstream>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
 #include "systems/WindowSystem.h"
 
@@ -23,6 +24,14 @@ S_WindowSystem::S_WindowSystem(SkaiaCore::Coordinator* c)
     Signature signature;
 	signature.set(coordinator->GetComponentType<S_Window>());
 	coordinator->SetSystemSignature<S_WindowSystem>(signature);
+
+	if (TTF_Init() == -1)
+	{
+		std::stringstream buffer;
+		buffer << "Could not initialize SDL_ttf properly, here is the error: " << TTF_GetError();
+
+		throw std::runtime_error(buffer.str());		
+	}
 }
 
 void S_WindowSystem::Initialize(void* data)
@@ -35,14 +44,9 @@ void S_WindowSystem::Initialize(void* data)
 	}
 	if (IMG_Init(IMG_INIT_JPG) != IMG_INIT_JPG) {
 		std::stringstream buffer;
-		buffer << IMG_GetError();
+		buffer << "Could not initialize SDL_image properly, here is the error: " << IMG_GetError();
 
 		throw std::runtime_error(buffer.str());
-	}
-
-	for (auto const& entity : mEntities)
-	{
-		auto& windowComp = coordinator->GetComponent<S_Window>(entity);
 	}
 
 	std::cout << "Window System Initalized" << "\n";
@@ -65,6 +69,10 @@ void S_WindowSystem::Cleanup()
 		auto const& windowComp = coordinator->GetComponent<S_Window>(entity);
 
 		SDL_DestroyWindow(windowComp.pWindow);
+
+		// quit sdl subsystem things
+		IMG_Quit();
+		TTF_Quit();
 		SDL_Quit();
 	}
 }

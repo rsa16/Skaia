@@ -9,6 +9,7 @@
 #include "GameApplication.h"
 #include "components/Transform.h"
 #include "components/Sprite.h"
+#include "behaviors/SkaiaImaging.h"
 
 #include "SDL.h"
 #include "SDL_Image.h"
@@ -36,6 +37,7 @@ public:
 	void Cleanup() override {};
 
 	void Update() override {
+		
 		for (auto const& entity : mEntities)
 		{
 			auto& entityInputComp = coordinator->GetComponent<S_Input>(entity);
@@ -63,12 +65,13 @@ public:
 int main(int argc, char* argv[])
 {	
 	S_GameApplication* game = new S_GameApplication(&coordinator, "Farming Sim", 500, 600);
+	SDL_Renderer* pRenderer = game->GetRenderer();
 
 	game->TrackSystem<CustomSystem>();
 	
 	// initialize the game
 	game->Initialize();
-	
+
 	S_Entity rect = coordinator.CreateEntity();
 	coordinator.AddComponent<S_Transform>(rect, 
 		S_Transform {

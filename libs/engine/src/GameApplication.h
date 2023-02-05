@@ -30,6 +30,8 @@ class ENGINE_API S_GameApplication
 		SDL_Renderer* pRenderer;
 		SkaiaCore::Coordinator* coordinator;
 
+		bool fpsCounter = false;
+
 	public:
 		std::unordered_map<std::type_index, std::shared_ptr<SkaiaCore::System>> mSystems;
 		
@@ -40,7 +42,12 @@ class ENGINE_API S_GameApplication
 		void Update();
 		void Cleanup();
 
-		void Start(int FPSLOCK=60);
+		void SetCounterOn() { fpsCounter = true; }
+		void SetCounterOff() { fpsCounter = false; }
+
+		void Start(int FPSLOCK=61);
+
+		SDL_Renderer* GetRenderer() { return pRenderer; };
 
 		template<typename T>
 		void TrackSystem()

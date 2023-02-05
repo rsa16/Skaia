@@ -46,8 +46,14 @@ S_GameApplication::S_GameApplication(SkaiaCore::Coordinator* c, const char* titl
 	coordinator->AddComponent<S_Debug>(window, S_Debug{});
 }
 
-void S_GameApplication::Start(int FPSLOCK)
+void S_GameApplication::Start(int FPSLOCK )
 {
+	SkaiaTypeset::FontDatabase fontDB;
+	SkaiaTypeset::Text* text;
+
+	fontDB.LoadFont("roboto.ttf");
+	text = new SkaiaTypeset::Text(pRenderer, fontDB, "roboto");
+
 	int frameDelay = 1000 / FPSLOCK;
 	Uint32 frameStart;
 	int frameTime;
@@ -55,26 +61,33 @@ void S_GameApplication::Start(int FPSLOCK)
 	S_Timer capTimer;
 	S_Timer fpsTimer;
 
-	//Start counting frames per second
+	// Start counting frames per second
 	float countedFrames = 0;
 	fpsTimer.Start();
 
+	text->SetText("0");
+	text->SetSize(14);
+
 	while (HandleEvents())
 	{
-		//Calculate and correct fps
+		// Calculate and correct fps
 		float avgFPS = countedFrames / ( fpsTimer.GetTicks() / 1000.f );
 		if( avgFPS > 2000000.0f )
 		{
 			avgFPS = 0;
 		}
-		
-		std::cout << "Average fps: " << avgFPS << "\n";
 
 		++countedFrames;
 		frameStart = SDL_GetTicks();
 
+		if (fpsCounter)
+		{
+			text->SetText(std::to_string(avgFPS));
+		}
+
 		// update variables and stuff first then render to view
 		Update();
+		if (fpsCounter) text->Render(10, 10);
 		Render();
 
 		frameTime = SDL_GetTicks() - frameStart;
