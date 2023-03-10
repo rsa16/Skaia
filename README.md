@@ -76,3 +76,12 @@ $ cmake -- build . --config Debug
 - `bin`is where all executable files will be placed
 - `external` is the location of all our third party submodules
 - `libs` our subprojects, editor, engine, and the game header tool
+
+## Codestyle
+
+- SkaiaCore header is seperate from everthing else and is included all in a single namespace.
+- Behaviors must be categorized, large behaviors with varieties that fall under the same category is namespaced (`SkaiaUI` has many things which is why its a namespace, `SkaiaTimer` only has timers so no namespace)
+- Components are data only
+- constant global variables are capitalized
+- namespaces start with `Skaia`
+- classes, structs, enums and all objects are in pascal case, if they are not namespaced they also start with S_ (i.e. `S_Texture`, `S_PhysicsSystem`, or `SkaiaUI::FontStyle`)
