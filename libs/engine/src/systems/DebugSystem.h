@@ -16,14 +16,20 @@
 	#undef main
 #endif
 
-class ENGINE_API S_DebugSystem : public SkaiaCore::System 
+namespace Skaia
 {
-    private:
-        SkaiaCore::Coordinator* coordinator;
-    public:
-        S_DebugSystem(SkaiaCore::Coordinator* coordinator);
-        void Update() override;
-        void Render() override;
-        void Cleanup() override;
-        void Initialize(void* data = nullptr) override;
-};
+    namespace Systems
+    {
+        class ENGINE_API DebugSystem : public Skaia::Core::System 
+        {
+            private:
+                Skaia::Core::Coordinator* coordinator;
+            public:
+                DebugSystem(Skaia::Core::Coordinator* coordinator);
+                void Update() override;
+                void Render() override;
+                void Cleanup() override;
+                void Initialize(void* data = nullptr) override;
+        };
+    }
+}

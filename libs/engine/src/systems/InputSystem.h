@@ -11,21 +11,28 @@
 #include "SDL.h"
 
 #include "components/Input.h"
+#include "behaviors/SkaiaEvents.h"
 
 #ifdef _DEBUG
 	#undef main
 #endif
 
-class ENGINE_API S_InputSystem :
-	public SkaiaCore::System
+namespace Skaia
 {
-    private:
-        SkaiaCore::Coordinator* coordinator;
-    public:
-        S_InputSystem(SkaiaCore::Coordinator* c);
-        void Update() override;
-        void Render() override;
-        void Cleanup() override;
-        void Initialize(void* data = nullptr) override;
-        bool HandleInput(SDL_Event ev);
-};
+    namespace Systems
+    {
+        class ENGINE_API InputSystem :
+            public Skaia::Core::System
+        {
+            private:
+                Skaia::Core::Coordinator* coordinator;
+            public:
+                InputSystem(Skaia::Core::Coordinator* c);
+                void Update() override;
+                void Render() override;
+                void Cleanup() override;
+                void Initialize(void* data = nullptr) override;
+                bool HandleInput(Events::Event* ev);
+        };
+    }
+}

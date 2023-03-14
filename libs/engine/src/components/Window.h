@@ -1,3 +1,5 @@
+#pragma once
+
 #include "SkaiaCore.h"
 #include "SDL.h"
 
@@ -5,6 +7,12 @@
 	#undef main
 #endif
 
-struct ENGINE_API S_Window {
-	SDL_Window* pWindow = nullptr;
-};
+namespace Skaia
+{
+	namespace Components
+	{
+		struct ENGINE_API Window {
+			SDL_Window* pWindow = nullptr;
+		};
+	}
+}

@@ -9,46 +9,52 @@
 #pragma once
 
 #include <SDL.h>
-#include "systems/DebugSystem.h"
+#include "DebugSystem.h"
 #include <iostream>
 
 #ifdef _DEBUG
 #undef main
 #endif
 
-S_DebugSystem::S_DebugSystem(SkaiaCore::Coordinator *c)
+namespace Skaia
 {
-	coordinator = c;
-
-	Signature signature;
-	signature.set(coordinator->GetComponentType<S_Debug>());
-	signature.set(coordinator->GetComponentType<S_Input>());
-	coordinator->SetSystemSignature<S_DebugSystem>(signature);
-}
-
-void S_DebugSystem::Initialize(void *data)
-{
-	std::cout << "Debug System Initalized"
-			  << "\n";
-}
-
-void S_DebugSystem::Render()
-{
-	// nothing to implement here
-}
-
-void S_DebugSystem::Update()
-{
-	for (auto const &entity : mEntities)
+	namespace Systems
 	{
-		auto &entityInputComponent = coordinator->GetComponent<S_Input>(entity);
-		if (entityInputComponent.UP_PRESSED)
+		DebugSystem::DebugSystem(Skaia::Core::Coordinator *c)
 		{
+			coordinator = c;
+
+			Signature signature;
+			signature.set(coordinator->GetComponentType<Skaia::Components::Debug>());
+			signature.set(coordinator->GetComponentType<Skaia::Components::Input>());
+			coordinator->SetSystemSignature<Skaia::Systems::DebugSystem>(signature);
+		}
+
+		void DebugSystem::Initialize(void *data)
+		{
+			std::cout << "Debug System Initalized"
+					<< "\n";
+		}
+
+		void DebugSystem::Render()
+		{
+			// nothing to implement here
+		}
+
+		void DebugSystem::Update()
+		{
+			for (auto const &entity : mEntities)
+			{
+				auto &entityInputComponent = coordinator->GetComponent<Skaia::Components::Input>(entity);
+				if (entityInputComponent.UP_PRESSED)
+				{
+				}
+			}
+		}
+
+		void DebugSystem::Cleanup()
+		{
+			// nothing to implement here
 		}
 	}
-}
-
-void S_DebugSystem::Cleanup()
-{
-	// nothing to implement here
 }

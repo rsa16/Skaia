@@ -7,10 +7,11 @@
 */
 
 #pragma once
-#include "SkaiaCore.h"
+#include "../SkaiaCore.h"
 
-#include "components/Sprite.h"
-#include "components/Transform.h"
+#include "../components/AudioSource.h"
+#include "../behaviors/SkaiaEvents.h"
+#include "../behaviors/SkaiaAudio.h"
 
 #ifdef _DEBUG
 	#undef main
@@ -20,19 +21,17 @@ namespace Skaia
 {
     namespace Systems
     {
-        class ENGINE_API RenderSystem : 
-            public Skaia::Core::System 
+        class ENGINE_API AudioSystem : public Skaia::Core::System 
         {
             private:
                 Skaia::Core::Coordinator* coordinator;
-                SDL_Renderer* pRenderer;
-
             public:
-                RenderSystem(Skaia::Core::Coordinator* coordinator);
+                AudioSystem(Skaia::Core::Coordinator* coordinator);
                 void Update() override;
                 void Render() override;
                 void Cleanup() override;
                 void Initialize(void* data = nullptr) override;
+                void HandleEvent(Events::Event* ev);
         };
     }
 }

@@ -90,6 +90,7 @@ option(BOX2D_BUILD_UNIT_TESTS "" OFF)
 add_subdirectory(external/sdl)
 add_subdirectory(external/sdl_image)
 add_subdirectory(external/sdl_ttf)
+add_subdirectory(external/sdl_mixer)
 add_subdirectory(external/box2d)
 
 add_subdirectory(libs/engine)

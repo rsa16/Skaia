@@ -18,44 +18,55 @@
 #include "systems/WindowSystem.h"
 #include "systems/InputSystem.h"
 #include "systems/RenderSystem.h"
+#include "systems/PhysicsSystem.h"
+#include "systems/AudioSystem.h"
+
+#include "behaviors/SkaiaEvents.h"
 
 #ifdef _DEBUG
 	#undef main
 #endif
 
-class ENGINE_API S_GameApplication
-{
-	private:
-		SDL_Event ev;
-		SDL_Renderer* pRenderer;
-		SkaiaCore::Coordinator* coordinator;
+namespace Skaia {
+	class ENGINE_API GameApplication
+	{
+		private:
+			Skaia::Events::Event* ev;
+			SDL_Renderer* pRenderer;
+			Skaia::Core::Coordinator* coordinator;
 
-		bool fpsCounter = false;
+			bool fpsCounter = false;
 
-	public:
-		std::unordered_map<std::type_index, std::shared_ptr<SkaiaCore::System>> mSystems;
-		
-		S_GameApplication(SkaiaCore::Coordinator* c, const char* title, int width, int height);
+		public:
+			std::unordered_map<std::type_index, std::shared_ptr<Skaia::Core::System>> mSystems;
+			
+			GameApplication(Skaia::Core::Coordinator* c, const char* title, int width, int height);
 
-		void Initialize();
-		void Render();
-		void Update();
-		void Cleanup();
+			void Initialize();
+			void Render();
+			void Update();
+			void Cleanup();
 
-		void SetCounterOn() { fpsCounter = true; }
-		void SetCounterOff() { fpsCounter = false; }
+			void SetCounterOn() { fpsCounter = true; }
+			void SetCounterOff() { fpsCounter = false; }
 
-		void Start(int FPSLOCK=61);
+			void Start(int FPSLOCK=61);
 
-		SDL_Renderer* GetRenderer() { return pRenderer; };
+			SDL_Renderer* GetRenderer() { return pRenderer; };
 
-		template<typename T>
-		void TrackSystem()
-		{
-			auto system = coordinator->RegisterSystem<T>();
-			mSystems.insert(std::make_pair(std::type_index(typeid(T)), system));
-		}
+			template<typename T>
+			void TrackSystem()
+			{
+				auto system = coordinator->RegisterSystem<T>();
+				mSystems.insert(std::make_pair(std::type_index(typeid(T)), system));
+			}
 
-		bool HandleEvents();
-};
+			template<typename T>
+			std::shared_ptr<T> GetSystem()
+			{
+				return std::static_pointer_cast<T>(mSystems[std::type_index(typeid(T))]);
+			}
 
+			bool HandleEvents();
+	};
+}

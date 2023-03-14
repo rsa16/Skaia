@@ -10,7 +10,7 @@ Most of these features are not implemented yet but we are planning to add them.
 ### Barebone
 - A rendering engine (SDL) ✓
 - Math utilities
-- Physics Engine (maybe integrate Box2d?) **IN PROGRESS**
+- Physics Engine (Box2d) ✓
 - Game loop (update, render, that kinda thing) ✓
 - Input System ✓
 - Debug System ✓
@@ -19,12 +19,12 @@ Most of these features are not implemented yet but we are planning to add them.
 - Game Mechanisms (Entities, Systems, Components) ✓
 - Audio System
 - Level System
-- Event System **IN PROGRESS**
+- Event System ✓
 - Animation
 - File System
 - Camera
-- UI **IN PROGRESS**
-- Basic Meshes
+- UI (Text, fonts, and colors are done)  **IN PROGRESS**
+- Basic Meshes (Squares, cubes)
 - Textures ✓
 - Collisions
 - Timers ✓

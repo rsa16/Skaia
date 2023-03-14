@@ -8,155 +8,171 @@
 
 
 #include "GameApplication.h"
-#include "behaviors/SkaiaTimer.h"
 #include <string>
+
+// behaviors
+#include "behaviors/SkaiaUI.h"
+#include "behaviors/SkaiaTimer.h"
+#include "behaviors/SkaiaAudio.h"
 
 #ifdef _DEBUG
 	#undef main
 #endif
 
-S_GameApplication::S_GameApplication(SkaiaCore::Coordinator* c, const char* title, int width, int height)
+namespace Skaia
 {
-	coordinator = c;
-	coordinator->Initialize();
-
-	// register default components
-	coordinator->RegisterComponent<S_Window>();
-	coordinator->RegisterComponent<S_Input>();
-	coordinator->RegisterComponent<S_Debug>();
-	coordinator->RegisterComponent<S_Transform>();
-	coordinator->RegisterComponent<S_Sprite>();
-
-	// register default systems
-	TrackSystem<S_WindowSystem>();
-	TrackSystem<S_InputSystem>();
-	TrackSystem<S_DebugSystem>();
-	TrackSystem<S_RenderSystem>();
-
-	// sdl init stuff
-	SDL_Window* pWindow = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_RESIZABLE);
-	pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
-
-	S_Entity window = coordinator->CreateEntity();
-	coordinator->AddComponent<S_Window>(window,
-		S_Window{
-			.pWindow = pWindow
-		});
-	coordinator->AddComponent<S_Input>(window, S_Input{});
-	coordinator->AddComponent<S_Debug>(window, S_Debug{});
-}
-
-void S_GameApplication::Start(int FPSLOCK )
-{
-	SkaiaTypeset::FontDatabase fontDB;
-	SkaiaTypeset::Text* text;
-
-	fontDB.LoadFont("roboto.ttf");
-	text = new SkaiaTypeset::Text(pRenderer, fontDB, "roboto");
-
-	int frameDelay = 1000 / FPSLOCK;
-	Uint32 frameStart;
-	int frameTime;
-
-	S_Timer capTimer;
-	S_Timer fpsTimer;
-
-	// Start counting frames per second
-	float countedFrames = 0;
-	fpsTimer.Start();
-
-	text->SetText("0");
-	text->SetSize(14);
-
-	while (HandleEvents())
+	GameApplication::GameApplication(Skaia::Core::Coordinator* c, const char* title, int width, int height)
 	{
-		// Calculate and correct fps
-		float avgFPS = countedFrames / ( fpsTimer.GetTicks() / 1000.f );
-		if( avgFPS > 2000000.0f )
+		coordinator = c;
+		coordinator->Initialize();
+
+		// register default components
+		coordinator->RegisterComponent<Components::Window>();
+		coordinator->RegisterComponent<Components::Input>();
+		coordinator->RegisterComponent<Components::Debug>();
+		coordinator->RegisterComponent<Components::Transform>();
+		coordinator->RegisterComponent<Components::Sprite>();
+		coordinator->RegisterComponent<Components::RigidBody>();
+		coordinator->RegisterComponent<Components::AudioSource>();
+
+		// register default systems
+		TrackSystem<Systems::WindowSystem>();
+		TrackSystem<Systems::InputSystem>();
+		TrackSystem<Systems::DebugSystem>();
+		TrackSystem<Systems::PhysicsSystem>();
+		TrackSystem<Systems::RenderSystem>();
+		TrackSystem<Systems::AudioSystem>();
+
+		// sdl init stuff
+		SDL_Window* pWindow = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_RESIZABLE);
+		pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+
+		Skaia::Entity window = coordinator->CreateEntity();
+		coordinator->AddComponent<Components::Window>(window,
+			Components::Window{
+				.pWindow = pWindow
+			});
+		coordinator->AddComponent<Components::Input>(window, Components::Input{});
+		coordinator->AddComponent<Components::Debug>(window, Components::Debug{});
+	}
+
+	void GameApplication::Start(int FPSLOCK )
+	{
+		Skaia::UI::FontDatabase fontDB;
+		Skaia::UI::Text* text;
+
+		fontDB.LoadFont("roboto.ttf");
+		text = new Skaia::UI::Text(pRenderer, fontDB, "roboto");
+
+		int frameDelay = 1000 / FPSLOCK;
+		Uint32 frameStart;
+		int frameTime;
+
+		Skaia::Timers::Timer capTimer;
+		Skaia::Timers::Timer fpsTimer;
+
+		// Start counting frames per second
+		float countedFrames = 0;
+		fpsTimer.Start();
+
+		text->SetText("0");
+		text->SetSize(14);
+
+		Initialize();
+
+		while (HandleEvents())
 		{
-			avgFPS = 0;
+			// Calculate and correct fps
+			float avgFPS = countedFrames / ( fpsTimer.GetTicks() / 1000.f );
+			if( avgFPS > 2000000.0f )
+			{
+				avgFPS = 0;
+			}
+
+			++countedFrames;
+			frameStart = SDL_GetTicks();
+
+			if (fpsCounter)
+			{
+				text->SetText(std::to_string(avgFPS));
+			}
+
+			// update variables and stuff first then render to view
+			Update();
+			if (fpsCounter) text->Render(10, 10);
+			Render();
+
+			frameTime = SDL_GetTicks() - frameStart;
+
+			if (frameDelay > frameTime)
+			{
+				SDL_Delay(frameDelay - frameTime);
+			}
 		}
+	}
 
-		++countedFrames;
-		frameStart = SDL_GetTicks();
-
-		if (fpsCounter)
+	void GameApplication::Initialize()
+	{
+		for (auto const& pair : mSystems)
 		{
-			text->SetText(std::to_string(avgFPS));
+			auto const& system = pair.second;
+			system->Initialize(pRenderer);
 		}
+	}
 
-		// update variables and stuff first then render to view
-		Update();
-		if (fpsCounter) text->Render(10, 10);
-		Render();
-
-		frameTime = SDL_GetTicks() - frameStart;
-
-		if (frameDelay > frameTime)
+	void GameApplication::Update()
+	{
+		for (auto const& pair : mSystems)
 		{
-			SDL_Delay(frameDelay - frameTime);
+			auto const& system = pair.second;
+			system->Update();
 		}
 	}
-}
 
-void S_GameApplication::Initialize()
-{
-	for (auto const& pair : mSystems)
+	void GameApplication::Render()
 	{
-		auto const& system = pair.second;
-		system->Initialize(pRenderer);
+		for (auto const& pair : mSystems)
+		{
+			auto const& system = pair.second;
+			system->Render();
+		}
 	}
-}
 
-void S_GameApplication::Update()
-{
-	for (auto const& pair : mSystems)
+	bool GameApplication::HandleEvents()
 	{
-		auto const& system = pair.second;
-		system->Update();
-	}
-}
+		std::shared_ptr<Systems::InputSystem> inputSystem = GetSystem<Systems::InputSystem>();
+		std::shared_ptr<Systems::PhysicsSystem> physicsSystem = GetSystem<Systems::PhysicsSystem>();
+		std::shared_ptr<Systems::AudioSystem> audioSystem = GetSystem<Systems::AudioSystem>();
 
-void S_GameApplication::Render()
-{
-	for (auto const& pair : mSystems)
-	{
-		auto const& system = pair.second;
-		system->Render();
-	}
-}
+		while (Events::CheckEvent(&ev) != -1)
+		{
+			switch (ev->name) 
+			{
+				case Events::EventNames::KEYBOARD_EVENT:
+					inputSystem->HandleInput(ev);
+					break;
 
-bool S_GameApplication::HandleEvents()
-{
-	// get input system  through an ugly pointer cast which unfortunately works
-	std::shared_ptr<S_InputSystem> inputSystem = std::static_pointer_cast<S_InputSystem>(mSystems[std::type_index(typeid(S_InputSystem))]);
-	while (SDL_PollEvent(&ev) != 0)
-	{
-		switch (ev.type) {
-			case SDL_QUIT:
-				return false;
-
-			case SDL_KEYDOWN:
-				if (ev.key.keysym.sym == SDLK_ESCAPE)
-				{
+				case Events::EventNames::QUIT_EVENT:
 					return false;
-				}
-				inputSystem->HandleInput(ev);
-				break;
 
-			case SDL_KEYUP:
-				inputSystem->HandleInput(ev);
-				break;
+				case Events::EventNames::AUDIO_EVENT:
+					audioSystem->HandleEvent(ev);
+					break;
+				
+				case Events::EventNames::PHYSICS_EVENT:
+					physicsSystem->HandleEvent(ev);
+					break;
+			}
 		}
+		return true;
 	}
-	return true;
-}
 
-void S_GameApplication::Cleanup()
-{
-	for (auto const& pair : mSystems)
+	void GameApplication::Cleanup()
 	{
-		auto const& system = pair.second;
-		system->Cleanup();
+		for (auto const& pair : mSystems)
+		{
+			auto const& system = pair.second;
+			system->Cleanup();
+		}
 	}
 }

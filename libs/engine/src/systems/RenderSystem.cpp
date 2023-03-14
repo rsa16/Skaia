@@ -16,49 +16,59 @@
 	#undef main
 #endif
 
-S_RenderSystem::S_RenderSystem(SkaiaCore::Coordinator* c) {
-	coordinator = c;
-
-    Signature signature;
-    signature.set(coordinator->GetComponentType<S_Transform>());
-	signature.set(coordinator->GetComponentType<S_Sprite>());
-	coordinator->SetSystemSignature<S_RenderSystem>(signature);
-}
-
-void S_RenderSystem::Initialize(void* data)
+namespace Skaia
 {
-    pRenderer = (SDL_Renderer*)data;
+    namespace Systems
+    {
+        RenderSystem::RenderSystem(Skaia::Core::Coordinator* c) {
+            coordinator = c;
 
-	std::cout << "Render System Initalized" << "\n";
-}
-
-void S_RenderSystem::Render()
-{
-    SDL_RenderPresent(pRenderer);
-}
-
-void S_RenderSystem::Update() {
-    SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
-	SDL_RenderClear(pRenderer);
-
-    for (auto const& entity : mEntities)
-	{
-        auto& entityS_Transform = coordinator->GetComponent<S_Transform>(entity);
-        auto& entityS_Sprite = coordinator->GetComponent<S_Sprite>(entity);
-
-        if (entityS_Sprite.color.r == -1)
-        {
-            // do nothing
-        } else {
-            SDL_Rect fillRect = { entityS_Transform.x, entityS_Transform.y, entityS_Transform.width, entityS_Transform.height };
-            SDL_SetRenderDrawColor(pRenderer, entityS_Sprite.color.r, entityS_Sprite.color.g, entityS_Sprite.color.b, entityS_Sprite.color.a*255);
-            SDL_RenderFillRect(pRenderer, &fillRect);
+            Signature signature;
+            signature.set(coordinator->GetComponentType<Components::Transform>());
+            signature.set(coordinator->GetComponentType<Components::Sprite>());
+            coordinator->SetSystemSignature<RenderSystem>(signature);
         }
-	}
-}
 
-void S_RenderSystem::Cleanup()
-{
-	// nothing to implement here
+        void RenderSystem::Initialize(void* data)
+        {
+            pRenderer = (SDL_Renderer*)data;
+
+            std::cout << "Render System Initalized" << "\n";
+        }
+
+        void RenderSystem::Render()
+        {
+            SDL_RenderPresent(pRenderer);
+        }
+
+        void RenderSystem::Update() {
+            SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
+            SDL_RenderClear(pRenderer);
+
+            for (auto const& entity : mEntities)
+            {
+                auto& entityTransform = coordinator->GetComponent<Components::Transform>(entity);
+                auto& entitySprite = coordinator->GetComponent<Components::Sprite>(entity);
+
+                if (entitySprite.color.r == -1)
+                {
+                    entitySprite.tex->Render(entityTransform.x, entityTransform.y);
+                    // do nothing
+                } else {
+                    if (entity == 2)
+                    {
+                        // printf("x: %d,  y: %d, width: %d, height: %d\n", entityTransform.x, entityTransform.y, entityTransform.width, entityTransform.height);
+                    }
+                    SDL_Rect fillRect = { entityTransform.x, entityTransform.y, entityTransform.width, entityTransform.height };
+                    SDL_SetRenderDrawColor(pRenderer, entitySprite.color.r, entitySprite.color.g, entitySprite.color.b, entitySprite.color.a*255);
+                    SDL_RenderFillRect(pRenderer, &fillRect);
+                }
+            }
+        }
+
+        void RenderSystem::Cleanup()
+        {
+            // nothing to implement here
+        }
+    }
 }
-	

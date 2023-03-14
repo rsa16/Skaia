@@ -35,25 +35,12 @@
 #	define ENGINE_API ENGINE_API_IMPORT
 #endif
 
-
-using std::string;
-
-// ECSs
-using S_Entity = std::uint32_t;
-const S_Entity MAX_ENTITIES = 5000;
-using ComponentType = std::uint8_t;
-const ComponentType MAX_COMPONENTS = 32;
-using Signature = std::bitset<MAX_COMPONENTS>;
-
-
-
-// Input
-enum class InputButtons
+namespace Skaia
 {
-	W,
-	A,
-	S,
-	D,
-	Q,
-	E
-};
+    // ECSs
+    using Entity = std::uint32_t;
+    const Entity MAX_ENTITIES = 5000;
+    using ComponentType = std::uint8_t;
+    const ComponentType MAX_COMPONENTS = 32;
+    using Signature = std::bitset<MAX_COMPONENTS>;
+}

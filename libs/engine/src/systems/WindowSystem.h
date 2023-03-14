@@ -16,15 +16,21 @@
 	#undef main
 #endif
 
-class ENGINE_API S_WindowSystem :
-	public SkaiaCore::System
+namespace Skaia
 {
-    private:
-        SkaiaCore::Coordinator* coordinator;
-    public:
-        S_WindowSystem(SkaiaCore::Coordinator* c);
-        void Update() override;
-        void Render() override;
-        void Cleanup() override;
-        void Initialize(void* data = nullptr) override;
-};
+    namespace Systems
+    {
+        class ENGINE_API WindowSystem :
+            public Skaia::Core::System
+        {
+            private:
+                Skaia::Core::Coordinator* coordinator;
+            public:
+                WindowSystem(Skaia::Core::Coordinator* c);
+                void Update() override;
+                void Render() override;
+                void Cleanup() override;
+                void Initialize(void* data = nullptr) override;
+        };
+    }
+}

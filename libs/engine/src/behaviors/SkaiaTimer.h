@@ -1,28 +1,42 @@
+/*
+  Copyright (c) 2022, Rehan Ali
+  All rights reserved.
+
+  This source code is licensed under the BSD-style license found in the
+  LICENSE file in the root directory of this source tree.
+*/
+
 #include <SDL.h>
 #include "Types.h"
 
-class ENGINE_API S_Timer 
+namespace Skaia
 {
-    private:
-        Uint32 mStartTicks;
-        Uint32 mPausedTicks;
+    namespace Timers
+    {
+        class ENGINE_API Timer 
+        {
+            private:
+                Uint32 mStartTicks;
+                Uint32 mPausedTicks;
 
-        bool mPaused;
-        bool mStarted;
+                bool mPaused;
+                bool mStarted;
 
-    public:
-        S_Timer();
+            public:
+                Timer();
 
-        // Various clock actions
-        void Start();
-        void Stop();
-        void Pause();
-        void Unpause();
+                // Various clock actions
+                void Start();
+                void Stop();
+                void Pause();
+                void Unpause();
 
-        // Get timer's time (lol?)
-        Uint32 GetTicks();
+                // Get timer's time (lol?)
+                Uint32 GetTicks();
 
-        // These functions check the status of the timer
-        bool IsStarted();
-        bool IsPaused();
-};
+                // These functions check the status of the timer
+                bool IsStarted();
+                bool IsPaused();
+        };
+    }
+}

@@ -13,10 +13,16 @@
 	#undef main
 #endif
 
-struct ENGINE_API S_Transform 
+namespace Skaia
 {
-    float x, y;
-    int width, height;
+   namespace Components
+   {
+        struct ENGINE_API Transform 
+        {
+            float x, y;
+            int width, height;
 
-    float rotation = 0;
-};
+            float rotation = 0;
+        };
+   } 
+}

@@ -9,30 +9,34 @@
 #pragma once
 #include "SkaiaCore.h"
 
-#include "components/Sprite.h"
+#include "components/Rigidbody.h"
 #include "components/Transform.h"
 
+#include "behaviors/SkaiaEvents.h"
+
+#include "box2d/box2d.h"
+
 #ifdef _DEBUG
-	#undef main
+  #undef main
 #endif
 
 namespace Skaia
 {
     namespace Systems
     {
-        class ENGINE_API RenderSystem : 
-            public Skaia::Core::System 
+        class ENGINE_API PhysicsSystem : public Skaia::Core::System
         {
             private:
                 Skaia::Core::Coordinator* coordinator;
-                SDL_Renderer* pRenderer;
+                b2World* world;
 
             public:
-                RenderSystem(Skaia::Core::Coordinator* coordinator);
+                PhysicsSystem(Skaia::Core::Coordinator* coordinator);
                 void Update() override;
                 void Render() override;
                 void Cleanup() override;
                 void Initialize(void* data = nullptr) override;
-        };
+                bool HandleEvent(Events::Event* ev);
+        };       
     }
 }

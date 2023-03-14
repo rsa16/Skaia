@@ -8,6 +8,8 @@
 
 #pragma once
 #include "SkaiaCore.h"
+#include "Types.h"
+#include "behaviors/SkaiaAudio.h"
 
 #ifdef _DEBUG
 	#undef main
@@ -17,6 +19,11 @@ namespace Skaia
 {
     namespace Components
     {
-        struct ENGINE_API Debug {};
+        struct ENGINE_API AudioSource
+        {
+            Audio::AudioClip audioClip;
+            int volume = 128;
+            bool playOnStart = false;
+        };
     }
 }

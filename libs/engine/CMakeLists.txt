@@ -9,6 +9,9 @@ set(Header_Files
     "src/Types.h"
     "src/behaviors/SkaiaImaging.h"
     "src/behaviors/SkaiaTimer.h"
+    "src/behaviors/SkaiaEvents.h"
+    "src/behaviors/SkaiaUI.h"
+    "src/behaviors/SkaiaAudio.h"
 )
 source_group("Header Files" FILES ${Header_Files})
 
@@ -18,6 +21,8 @@ set(Header_Files__Components
     "src/components/Window.h"
     "src/components/Transform.h"
     "src/components/Sprite.h"
+    "src/components/Rigidbody.h"
+    "src/components/AudioSource.h"
 )
 source_group("Header Files\\Core Behaviors" FILES ${Header_Files__Components})
 
@@ -26,6 +31,8 @@ set(Header_Files__Systems
     "src/systems/InputSystem.h"
     "src/systems/RenderSystem.h"
     "src/systems/WindowSystem.h"
+    "src/systems/PhysicsSystem.h"
+    "src/systems/AudioSystem.h"
 )
 
 set(Resource_Files__Source_Files__Systems
@@ -33,6 +40,8 @@ set(Resource_Files__Source_Files__Systems
     "src/systems/InputSystem.cpp"
     "src/systems/RenderSystem.cpp"
     "src/systems/WindowSystem.cpp"
+    "src/systems/PhysicsSystem.cpp"
+    "src/systems/AudioSystem.cpp"
 )
 source_group("Resource Files\\Source Files\\Systems" FILES ${Resource_Files__Source_Files__Systems})
 
@@ -40,6 +49,9 @@ set(Resource_Files__Source_Files
     "src/GameApplication.cpp"
     "src/behaviors/SkaiaImaging.cpp"
     "src/behaviors/SkaiaTimer.cpp"
+    "src/behaviors/SkaiaEvents.cpp"
+    "src/behaviors/SkaiaUI.cpp"
+    "src/behaviors/SkaiaAudio.cpp"
 )
 source_group("Resource Files\\Source Files" FILES ${Resource_Files__Source_Files})
 
@@ -85,6 +97,7 @@ endif()
 ################################################################################
 target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_SOURCE_DIR}/external/sdl_image"
+    "${CMAKE_SOURCE_DIR}/external/sdl_mixer/include"
     "${CMAKE_SOURCE_DIR}/external/sdl/include"
     "${CMAKE_SOURCE_DIR}/external/sdl_ttf"
     "${CMAKE_SOURCE_DIR}/external/box2d/include"
@@ -157,6 +170,7 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
     "SDL2_image-static"
     "SDL2_ttf"
     "box2d"
+    "SDL2_mixer-static"
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
@@ -165,5 +179,6 @@ target_link_directories(${PROJECT_NAME} PRIVATE
     "${CMAKE_SOURCE_DIR}/build/external/sdl_image/Release"
     "${CMAKE_SOURCE_DIR}/build/external/sdl_ttf/Release"
     "${CMAKE_SOURCE_DIR}/build/external/box2d/bin/Release"
+    "${CMAKE_SOURCE_DIR}/build/external/sdl_mixer/Release"
 )
 

@@ -12,14 +12,20 @@
 #include "behaviors/SkaiaImaging.h"
 
 #ifdef _DEBUG
-	#undef main
+  #undef main
 #endif
 
-struct ENGINE_API S_Sprite 
+namespace Skaia
 {
-    S_Texture* tex = nullptr;
-    S_Color color = {0, 0, 0};
-    bool flipX = false;
-    bool flipY = false;
-    bool hasPhysics = false;
-};
+    namespace Components
+    {
+        struct ENGINE_API Sprite 
+        {
+            Imaging::Texture* tex = nullptr;
+            Imaging::Color color = {0, 0, 0};
+            bool flipX = false;
+            bool flipY = false;
+            bool hasPhysics = false;
+        };       
+    }
+}
