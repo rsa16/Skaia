@@ -17,7 +17,7 @@ Most of these features are not implemented yet but we are planning to add them.
 
 ### Core
 - Game Mechanisms (Entities, Systems, Components) ✓
-- Audio System
+- Audio System ✓
 - Level System
 - Event System ✓
 - Animation

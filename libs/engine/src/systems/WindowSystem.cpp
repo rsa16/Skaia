@@ -46,7 +46,7 @@ namespace Skaia
 
 				throw std::runtime_error(buffer.str());
 			}
-			if (IMG_Init(IMG_INIT_JPG) != IMG_INIT_JPG) {
+			if (IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) != (IMG_INIT_JPG | IMG_INIT_PNG)) {
 				std::stringstream buffer;
 				buffer << "Could not initialize SDL_image properly, here is the error: " << IMG_GetError();
 

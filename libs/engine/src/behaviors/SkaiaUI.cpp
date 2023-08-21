@@ -32,7 +32,12 @@ namespace Skaia
         Font FontDatabase::LoadFont(std::string fontPath, int fontSize)
         {
             Font font = Font(fontPath, fontSize);
-            loadedFonts.insert({fontPath.substr(0, fontPath.find(".ttf")), font});
+            
+            std::string baseFileName = fontPath.substr(fontPath.find_last_of("/\\") + 1);
+            std::string::size_type const p(baseFileName.find(".ttf"));
+            std::string fileNoExtension = baseFileName.substr(0, p);
+
+            loadedFonts.insert({fileNoExtension, font});
             return font;
         }
 

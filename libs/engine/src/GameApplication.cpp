@@ -21,7 +21,7 @@
 
 namespace Skaia
 {
-	GameApplication::GameApplication(Skaia::Core::Coordinator* c, const char* title, int width, int height)
+	GameApplication::GameApplication(Skaia::Core::Coordinator* c, const char* title, int width, int height, bool fullscreen)
 	{
 		coordinator = c;
 		coordinator->Initialize();
@@ -47,7 +47,13 @@ namespace Skaia
 		SDL_Window* pWindow = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_RESIZABLE);
 		pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 
-		Skaia::Entity window = coordinator->CreateEntity();
+		if (fullscreen)
+		{
+			SDL_SetWindowFullscreen(pWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
+			SDL_ShowCursor(false);
+		}
+
+		Skaia::Entity window = coordinator->CreateEntity(); 
 		coordinator->AddComponent<Components::Window>(window,
 			Components::Window{
 				.pWindow = pWindow
@@ -61,7 +67,7 @@ namespace Skaia
 		Skaia::UI::FontDatabase fontDB;
 		Skaia::UI::Text* text;
 
-		fontDB.LoadFont("roboto.ttf");
+		fontDB.LoadFont("data/fonts/roboto.ttf");
 		text = new Skaia::UI::Text(pRenderer, fontDB, "roboto");
 
 		int frameDelay = 1000 / FPSLOCK;

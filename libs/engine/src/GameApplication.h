@@ -40,7 +40,7 @@ namespace Skaia {
 		public:
 			std::unordered_map<std::type_index, std::shared_ptr<Skaia::Core::System>> mSystems;
 			
-			GameApplication(Skaia::Core::Coordinator* c, const char* title, int width, int height);
+			GameApplication(Skaia::Core::Coordinator* c, const char* title, int width, int height, bool fullscreen = false);
 
 			void Initialize();
 			void Render();

@@ -58,6 +58,7 @@ namespace Skaia
                 void SetWidth(int width);
                 void SetHeight(int height);
 
+                void SetAlpha(Uint8 alpha);
         };
 
         //////////////////////////////////////////////////

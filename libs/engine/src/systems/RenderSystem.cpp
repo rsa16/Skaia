@@ -52,6 +52,7 @@ namespace Skaia
 
                 if (entitySprite.color.r == -1)
                 {
+                    entitySprite.tex->SetAlpha(entitySprite.color.a*255);
                     entitySprite.tex->Render(entityTransform.x, entityTransform.y);
                     // do nothing
                 } else {

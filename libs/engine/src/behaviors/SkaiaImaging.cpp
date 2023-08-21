@@ -51,6 +51,9 @@ namespace Skaia
                 newTexture = SDL_CreateTextureFromSurface(pRenderer, loadedSurf);
             }
 
+            SetWidth(loadedSurf->w);
+            SetHeight(loadedSurf->h);
+
             // Return success
             mTexture = newTexture;
             return mTexture != NULL;
@@ -82,13 +85,24 @@ namespace Skaia
         void Texture::SetWidth(int width) { mWidth = width; }
         void Texture::SetHeight(int height) { mHeight = height; }
 
+        void Texture::SetAlpha(Uint8 alpha) {
+            SDL_SetTextureBlendMode( mTexture, SDL_BLENDMODE_BLEND);
+            SDL_SetTextureAlphaMod( mTexture, alpha );
+        }
+
         /// @brief Load an SDL texture into Teture
         /// @param tex the said SDL texture
         /// @return Success or failiure
         bool Texture::LoadSDLTex(SDL_Texture* tex)
         {
             Free();
-            
+
+            SDL_Point size;
+            SDL_QueryTexture(tex, NULL, NULL, &size.x, &size.y);
+
+            SetWidth(size.x);
+            SetHeight(size.y);
+
             mTexture = tex;
             return mTexture != NULL || mTexture != nullptr; 
         }
