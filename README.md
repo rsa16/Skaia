@@ -9,7 +9,7 @@ This project is currently in development and is not useable whatsoever. Until th
 Most of these features are not implemented yet but we are planning to add them.
 ### Barebone
 - A rendering engine (SDL) ✓
-- Math utilities [work in progress]
+- Math utilities
 - Physics Engine (Box2d) ✓
 - Game loop (update, render, that kinda thing) ✓
 - Input System ✓
