@@ -74,8 +74,8 @@ namespace Skaia
 		Uint32 frameStart;
 		int frameTime;
 
-		Skaia::Timers::Timer capTimer;
-		Skaia::Timers::Timer fpsTimer;
+		Skaia::Timer capTimer;
+		Skaia::Timer fpsTimer;
 
 		// Start counting frames per second
 		float countedFrames = 0;
