@@ -10,11 +10,7 @@
 #include "components/Sprite.h"
 #include "behaviors/SkaiaImaging.h"
 
-#include "SDL.h"
-#include "SDL_Image.h"
 #include <sstream>
-#include <iomanip>
-#undef main
 
 namespace Components = Skaia::Components;
 

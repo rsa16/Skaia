@@ -11,9 +11,9 @@
 #include <string>
 
 // behaviors
-#include "behaviors/SkaiaUI.h"
-#include "behaviors/SkaiaTimer.h"
-#include "behaviors/SkaiaAudio.h"
+#include "modules/SkaiaUI.h"
+#include "modules/SkaiaTimer.h"
+#include "modules/SkaiaAudio.h"
 
 #ifdef _DEBUG
 	#undef main

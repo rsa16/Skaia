@@ -9,7 +9,7 @@
 #pragma once
 #include "SkaiaCore.h"
 #include "SDL.h"
-#include "behaviors/SkaiaImaging.h"
+#include "modules/SkaiaImaging.h"
 
 #ifdef _DEBUG
   #undef main

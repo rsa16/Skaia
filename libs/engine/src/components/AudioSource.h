@@ -9,7 +9,7 @@
 #pragma once
 #include "SkaiaCore.h"
 #include "Types.h"
-#include "behaviors/SkaiaAudio.h"
+#include "modules/SkaiaAudio.h"
 
 #ifdef _DEBUG
 	#undef main
