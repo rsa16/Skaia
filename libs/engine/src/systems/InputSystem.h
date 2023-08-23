@@ -11,7 +11,7 @@
 #include "SDL.h"
 
 #include "components/Input.h"
-#include "behaviors/SkaiaEvents.h"
+#include "modules/SkaiaEvents.h"
 
 #ifdef _DEBUG
 	#undef main

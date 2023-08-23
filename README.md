@@ -20,6 +20,7 @@ Most of these features are not implemented yet but we are planning to add them.
 - Audio System ✓
 - Level System
 - Event System ✓
+- Camera System
 - Animation
 - File System
 - Camera
@@ -34,6 +35,7 @@ Most of these features are not implemented yet but we are planning to add them.
 - Localization
 - Memory Management
 - Cinematics
+- OpenGL Shaders
 
 ## Building From Source
 The project uses cmake (because its more or less the standard build system generator) for building. The project builds just like any other cmake project.
@@ -84,7 +86,7 @@ The output will be in the bin folder at the root of the project.
 ## Codestyle
 
 - SkaiaCore header is seperate from everthing else and is included all in a single namespace.
-- Behaviors must be categorized, large behaviors with varieties that fall under the same category is namespaced (`SkaiaUI` has many things which is why its a namespace, `SkaiaTimer` only has timers so no namespace)
+- Modules must be categorized, large, and with varieties that fall under the same category is namespaced (`SkaiaUI` has many things which is why its a namespace, `SkaiaTimer` only has timers so no namespace)
 - Components are data only
 - constant global variables are capitalized
 - namespaces start with `Skaia`

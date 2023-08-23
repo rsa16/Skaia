@@ -7,11 +7,11 @@ set(Header_Files
     "src/SkaiaCore.h"
     "src/GameApplication.h"
     "src/Types.h"
-    "src/behaviors/SkaiaImaging.h"
-    "src/behaviors/SkaiaTimer.h"
-    "src/behaviors/SkaiaEvents.h"
-    "src/behaviors/SkaiaUI.h"
-    "src/behaviors/SkaiaAudio.h"
+    "src/modules/SkaiaImaging.h"
+    "src/modules/SkaiaTimer.h"
+    "src/modules/SkaiaEvents.h"
+    "src/modules/SkaiaUI.h"
+    "src/modules/SkaiaAudio.h"
 )
 source_group("Header Files" FILES ${Header_Files})
 
@@ -24,7 +24,7 @@ set(Header_Files__Components
     "src/components/Rigidbody.h"
     "src/components/AudioSource.h"
 )
-source_group("Header Files\\Core Behaviors" FILES ${Header_Files__Components})
+source_group("Header Files\\Core Modules" FILES ${Header_Files__Components})
 
 set(Header_Files__Systems
     "src/systems/DebugSystem.h"
@@ -47,11 +47,11 @@ source_group("Resource Files\\Source Files\\Systems" FILES ${Resource_Files__Sou
 
 set(Resource_Files__Source_Files
     "src/GameApplication.cpp"
-    "src/behaviors/SkaiaImaging.cpp"
-    "src/behaviors/SkaiaTimer.cpp"
-    "src/behaviors/SkaiaEvents.cpp"
-    "src/behaviors/SkaiaUI.cpp"
-    "src/behaviors/SkaiaAudio.cpp"
+    "src/modules/SkaiaImaging.cpp"
+    "src/modules/SkaiaTimer.cpp"
+    "src/modules/SkaiaEvents.cpp"
+    "src/modules/SkaiaUI.cpp"
+    "src/modules/SkaiaAudio.cpp"
 )
 source_group("Resource Files\\Source Files" FILES ${Resource_Files__Source_Files})
 

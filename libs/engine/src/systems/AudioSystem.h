@@ -10,8 +10,8 @@
 #include "../SkaiaCore.h"
 
 #include "../components/AudioSource.h"
-#include "../behaviors/SkaiaEvents.h"
-#include "../behaviors/SkaiaAudio.h"
+#include "../modules/SkaiaEvents.h"
+#include "../modules/SkaiaAudio.h"
 
 #ifdef _DEBUG
 	#undef main

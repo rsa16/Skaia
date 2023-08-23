@@ -103,7 +103,7 @@ public:
 
 int main(int argc, char* argv[])
 {	
-	Skaia::GameApplication* game = new Skaia::GameApplication(&coordinator, "Farming Sim", 1920, 1080, true);
+	Skaia::GameApplication* game = new Skaia::GameApplication(&coordinator, "Farming Sim", 500, 500, false);
 	SDL_Renderer* pr = game->GetRenderer();
 
 	coordinator.RegisterComponent<MenuAnimation>();
@@ -123,7 +123,7 @@ int main(int argc, char* argv[])
 		});
 
 	Skaia::Imaging::Texture tx(pr);
-	tx.LoadFile("data/images/background.png");
+	tx.LoadFile("data/images/background.jpg");
 
 	coordinator.AddComponent<Components::Sprite>(bg,
 		Components::Sprite {

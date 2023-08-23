@@ -12,7 +12,7 @@
 #include "components/Rigidbody.h"
 #include "components/Transform.h"
 
-#include "behaviors/SkaiaEvents.h"
+#include "modules/SkaiaEvents.h"
 
 #include "box2d/box2d.h"
 
