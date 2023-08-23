@@ -11,32 +11,29 @@
 
 namespace Skaia
 {
-    namespace Timers
+    class ENGINE_API Timer 
     {
-        class ENGINE_API Timer 
-        {
-            private:
-                Uint32 mStartTicks;
-                Uint32 mPausedTicks;
+        private:
+            Uint32 mStartTicks;
+            Uint32 mPausedTicks;
 
-                bool mPaused;
-                bool mStarted;
+            bool mPaused;
+            bool mStarted;
 
-            public:
-                Timer();
+        public:
+            Timer();
 
-                // Various clock actions
-                void Start();
-                void Stop();
-                void Pause();
-                void Unpause();
+            // Various clock actions
+            void Start();
+            void Stop();
+            void Pause();
+            void Unpause();
 
-                // Get timer's time (lol?)
-                Uint32 GetTicks();
+            // Get timer's time (lol?)
+            Uint32 GetTicks();
 
-                // These functions check the status of the timer
-                bool IsStarted();
-                bool IsPaused();
-        };
-    }
+            // These functions check the status of the timer
+            bool IsStarted();
+            bool IsPaused();
+    };
 }
