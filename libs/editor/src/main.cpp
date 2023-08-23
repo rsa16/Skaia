@@ -8,7 +8,7 @@
 #include "GameApplication.h"
 #include "components/Transform.h"
 #include "components/Sprite.h"
-#include "behaviors/SkaiaImaging.h"
+#include "modules/SkaiaImaging.h"
 
 #include <sstream>
 
