@@ -40,16 +40,18 @@ The project uses cmake (because its more or less the standard build system gener
 ```
 $ git clone https://github.com/rsa16/Skaia
 $ cd Skaia
+$ git submodule update --init --recursive # to clone our submodules
 $ mkdir build
 $ cd build
 $ cmake ..
 ```
-Then we build.
+Then we build. You may need to run `cmake --build .` twice in case of an error about SDL_image-static, not sure how to fix this yet.
 ```
 $ cmake --build . --config Release
 ## OR ##
-$ cmake -- build . --config Debug
+$ cmake --build . --config Debug
 ```
+The output will be in the bin folder at the root of the project.
 
 
 ## File Structure
