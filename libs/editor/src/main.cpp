@@ -10,8 +10,6 @@
 #include "components/Sprite.h"
 #include "modules/SkaiaImaging.h"
 
-#include <sstream>
-
 namespace Components = Skaia::Components;
 
 Skaia::Core::Coordinator coordinator;
@@ -103,7 +101,7 @@ public:
 
 int main(int argc, char* argv[])
 {	
-	Skaia::GameApplication* game = new Skaia::GameApplication(&coordinator, "Farming Sim", 500, 500, false);
+	Skaia::GameApplication* game = new Skaia::GameApplication(&coordinator, "Farming Sim", 900, 600, false);
 	SDL_Renderer* pr = game->GetRenderer();
 
 	coordinator.RegisterComponent<MenuAnimation>();
@@ -111,19 +109,20 @@ int main(int argc, char* argv[])
 	// pre game init
 	game->TrackSystem<CustomSystem>();
 	game->TrackSystem<MenuSystem>();
-	game->SetCounterOn();
+	game->SetFPSCounterOn();
+
+	Skaia::Imaging::Texture tx(pr);
+	tx.LoadFile("data/images/background.jpg");
 
 	Skaia::Entity bg = coordinator.CreateEntity();
+
 	coordinator.AddComponent<Components::Transform>(bg,
 		Components::Transform {
 			.x = 0,
 			.y = 0,
 			.width = 1920,
-			.height = 1080
+			.height = 500
 		});
-
-	Skaia::Imaging::Texture tx(pr);
-	tx.LoadFile("data/images/background.jpg");
 
 	coordinator.AddComponent<Components::Sprite>(bg,
 		Components::Sprite {
@@ -140,10 +139,10 @@ int main(int argc, char* argv[])
 	Skaia::Entity rect = coordinator.CreateEntity();
 	coordinator.AddComponent<Components::Transform>(rect, // give our player position
 		Components::Transform {
-			.x = (1920 / 2) - (100 / 2),
-			.y = (1080 / 2) - (100 / 2),
-			.width = 100,
-			.height = 100
+			.x = (500 / 2) - (30 / 2),
+			.y = (500 / 2) - (30 / 2),
+			.width = 30,
+			.height = 30
 		});
 		
 	coordinator.AddComponent<Components::Sprite>(rect, // give our player shape

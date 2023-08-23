@@ -47,8 +47,8 @@ namespace Skaia {
 			void Update();
 			void Cleanup();
 
-			void SetCounterOn() { fpsCounter = true; }
-			void SetCounterOff() { fpsCounter = false; }
+			void SetFPSCounterOn() { fpsCounter = true; }
+			void SetFPSCounterOff() { fpsCounter = false; }
 
 			void Start(int FPSLOCK=61);
 
