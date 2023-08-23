@@ -21,7 +21,7 @@
 #include "systems/PhysicsSystem.h"
 #include "systems/AudioSystem.h"
 
-#include "behaviors/SkaiaEvents.h"
+#include "modules/SkaiaEvents.h"
 
 #ifdef _DEBUG
 	#undef main
