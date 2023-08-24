@@ -52,6 +52,9 @@ namespace Skaia
 
                 if (entitySprite.color.r == -1)
                 {
+                    entityTransform.width = entitySprite.tex->GetWidth();
+                    entityTransform.height = entitySprite.tex->GetHeight();
+
                     entitySprite.tex->SetAlpha(entitySprite.color.a*255);
                     entitySprite.tex->Render(entityTransform.x, entityTransform.y);
                     // do nothing
