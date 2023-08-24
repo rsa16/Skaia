@@ -20,11 +20,11 @@ namespace Skaia
         struct ENGINE_API Hierarchy {
             std::size_t children{};
             
-            Entity first = null;
-            Entity previous Entity::Null;
-            Entity next = Entity::Null;
+            Entity first = NullEntity;
+            Entity previous =  NullEntity;
+            Entity next = NullEntity;
             
-            Entity parent = Entity::Null;
+            Entity parent = NullEntity;
         };
     }
 }

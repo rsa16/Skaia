@@ -39,6 +39,7 @@ namespace Skaia
 {
     // ECSs
     using Entity = std::uint32_t;
+    const NullEntity = -1;
     const Entity MAX_ENTITIES = 5000;
     using ComponentType = std::uint8_t;
     const ComponentType MAX_COMPONENTS = 32;
