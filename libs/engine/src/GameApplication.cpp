@@ -70,9 +70,9 @@ namespace Skaia
 		fontDB.LoadFont("data/fonts/roboto.ttf");
 		text = new Skaia::UI::Text(pRenderer, fontDB, "roboto");
 
-		int frameDelay = 1000 / FPSLOCK;
-		Uint32 frameStart;
-		int frameTime;
+		Uint64 frameDelay = 1000 / FPSLOCK;
+		Uint64 frameStart;
+		double frameTime;
 
 		Skaia::Timer capTimer;
 		Skaia::Timer fpsTimer;
@@ -96,7 +96,7 @@ namespace Skaia
 			}
 
 			++countedFrames;
-			frameStart = SDL_GetTicks();
+			frameStart = SDL_GetPerformanceCounter();
 
 			if (fpsCounter)
 			{
@@ -108,11 +108,11 @@ namespace Skaia
 			if (fpsCounter) text->Render(10, 10);
 			Render();
 
-			frameTime = SDL_GetTicks() - frameStart;
-
+			frameTime = (SDL_GetPerformanceCounter() - frameStart) / (double)SDL_GetPerformanceFrequency() * 1000.0f;
+				
 			if (frameDelay > frameTime)
 			{
-				SDL_Delay(frameDelay - frameTime);
+				SDL_Delay(floor(frameDelay - frameTime));
 			}
 		}
 	}
