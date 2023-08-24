@@ -8,6 +8,8 @@
 #include "GameApplication.h"
 #include "components/Transform.h"
 #include "components/Sprite.h"
+#include "components/Hierarchy.h"
+#include "components/Map.h"
 #include "modules/SkaiaImaging.h"
 
 namespace Components = Skaia::Components;
@@ -55,106 +57,72 @@ public:
 	};
 };
 
-class CustomSystem : public Skaia::Core::System {
-private:
-	Skaia::Core::Coordinator* coordinator;
-
-public:
-	CustomSystem(Skaia::Core::Coordinator* c) {
-		coordinator = c;
-
-		Skaia::Signature signature;
-		signature.set(coordinator->GetComponentType<Components::Input>());
-		signature.set(coordinator->GetComponentType<Components::Transform>());
-		coordinator->SetSystemSignature<CustomSystem>(signature);
-	};
-
-	void Initialize(void* data = nullptr) override {};
-	void Render() override {};
-	void Cleanup() override {};
-
-	void Update() override {
-		
-		for (auto const& entity : mEntities)
-		{
-			auto& entityInputComp = coordinator->GetComponent<Components::Input>(entity);
-			auto& entityS_Transform = coordinator->GetComponent<Components::Transform>(entity);
-
-			if (entityInputComp.DOWN_PRESSED) {
-				entityS_Transform.y += 10.0;
-			}
-			
-			if (entityInputComp.UP_PRESSED) {
-				entityS_Transform.y -= 10.0;
-			}
-			
-			if (entityInputComp.LEFT_PRESSED) {
-				entityS_Transform.x -= 10.0;
-			}
-			
-			if (entityInputComp.RIGHT_PRESSED) {
-				entityS_Transform.x += 10.0;
-			}
-		}
-	};
-};
-
 int main(int argc, char* argv[])
 {	
-	Skaia::GameApplication* game = new Skaia::GameApplication(&coordinator, "Farming Sim", 900, 600, false);
+	// Initialize Game Application
+	Skaia::GameApplication* game = new Skaia::GameApplication(&coordinator, "Farming Sim", 800, 550, false);
 	SDL_Renderer* pr = game->GetRenderer();
 
+	// Register components
 	coordinator.RegisterComponent<MenuAnimation>();
 
-	// pre game init
-	game->TrackSystem<CustomSystem>();
+	// Register System, turn FPS Counter on
 	game->TrackSystem<MenuSystem>();
 	game->SetFPSCounterOn();
 
+	// Create Texture and Load Image
 	Skaia::Imaging::Texture tx(pr);
 	tx.LoadFile("data/images/background.jpg");
 
+	// Set dimensions
+	tx.SetWidth(800);
+	tx.SetHeight(550);
+
+
+	// Create background
 	Skaia::Entity bg = coordinator.CreateEntity();
 
+	// Add Transform component
 	coordinator.AddComponent<Components::Transform>(bg,
 		Components::Transform {
 			.x = 0,
 			.y = 0,
-			.width = 1920,
-			.height = 500
-		});
 
+			.width = -1,
+			.height = -1 // System will automatically change the Transform's width and height 
+		}
+	);
+
+	// Add Sprite component
 	coordinator.AddComponent<Components::Sprite>(bg,
 		Components::Sprite {
 			.tex = &tx,
 			.color = { -1, -1, -1, 0.0f }
-		});
+		}
+	);
 
+	// Give it fade efect
 	coordinator.AddComponent<MenuAnimation>(bg,
 		MenuAnimation {
 			.speed = 5
-		});
+		}
+	);
 
-	// make our player
-	Skaia::Entity rect = coordinator.CreateEntity();
-	coordinator.AddComponent<Components::Transform>(rect, // give our player position
-		Components::Transform {
-			.x = (500 / 2) - (30 / 2),
-			.y = (500 / 2) - (30 / 2),
-			.width = 30,
-			.height = 30
-		});
-		
-	coordinator.AddComponent<Components::Sprite>(rect, // give our player shape
-		Components::Sprite {
-			.color = { 0, 255, 255, 0.0f}
-		});
 
-	coordinator.AddComponent<Components::Input>(rect, Components::Input{}); // and let us figure out its input
-	coordinator.AddComponent<MenuAnimation>(rect,
-		MenuAnimation {
-			.speed = 5
-		});
+	// Create level map
+	Skaia::Entity levelMap = coordinator.CreateEntity();
+
+	coordinator.AddComponent<Components::Map>(levelMap,
+		Components::Map {
+			
+		}
+	);
+
+	coordinator.AddComponent<Components::Hierarchy>(levelMap,
+		Components::Hierarchy {
+
+		}
+	);
 
 	game->Start();
 	return 0;
