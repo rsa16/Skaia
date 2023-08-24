@@ -17,6 +17,29 @@ namespace Skaia
 {
     namespace Imaging
     {
+        Color::Color(int r, int g, int b, float a)
+        {
+            this->r = r;
+            this->g = g;
+            this->b = b;
+            this->a = a;
+        }
+
+        Color::Color() : r(255), g(255), b(255), a(1.0f) {}
+
+        Color::Color(int v)
+        {
+            this->r = this->g = this->b = this->a = v;
+        }
+
+        Color::Color(int v, float a)
+        {
+            this->r = this->g = this->b = v;
+            this->a = a;
+        }
+
+
+
         /// @brief Initialize texture class.
         /// @param pr Texture class requires SDL_Renderer to be able to renderer. TODO: Wrap renderer around somehow
         Texture::Texture(SDL_Renderer* pr)

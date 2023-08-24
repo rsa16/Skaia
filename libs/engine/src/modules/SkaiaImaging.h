@@ -25,9 +25,25 @@ namespace Skaia
         //////////////////////////////////////////////////
 
         struct ENGINE_API Color {
-            float r, g, b;
-            float a = 1.0;
+            /// @brief Red
+            int r;
+            
+            /// @brief Green
+            int g;
+            
+            /// @brief Blue
+            int b;
+
+            /// @brief Alpha
+            float a;
+
+            Color();
+            Color(int v);
+            Color(int v, float a)
+            Color(int r, int g, int b, float a);
         };
+
+        bool operator==(const Color &lhs, const Color &rhs);
 
         class ENGINE_API Texture 
         {
