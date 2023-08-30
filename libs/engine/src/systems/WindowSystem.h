@@ -18,6 +18,7 @@
 
 namespace Skaia
 {
+
     namespace Systems
     {
         class ENGINE_API WindowSystem :
@@ -31,6 +32,7 @@ namespace Skaia
                 void Render() override;
                 void Cleanup() override;
                 void Initialize(void* data = nullptr) override;
+                void HandleUserEvent(void* data = nullptr) override {};
         };
     }
 }

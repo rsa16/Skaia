@@ -32,6 +32,7 @@ namespace Skaia
                 void Cleanup() override;
                 void Initialize(void* data = nullptr) override;
                 void HandleEvent(Events::Event* ev);
+                void HandleUserEvent(void* data = nullptr) override {};
         };
     }
 }

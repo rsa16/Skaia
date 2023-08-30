@@ -33,6 +33,7 @@ namespace Skaia
                 void Render() override;
                 void Cleanup() override;
                 void Initialize(void* data = nullptr) override;
+                void HandleUserEvent(void* data = nullptr) override {};
         };
     }
 }

@@ -49,7 +49,7 @@ namespace Skaia
             // nothing to do here
         }
 
-        bool InputSystem::HandleInput(Events::Event* event)
+        bool InputSystem::HandleEvent(Events::Event* event)
         {
             Events::KeyboardEvent* ev = dynamic_cast<Events::KeyboardEvent*>(event);
             for (auto const& entity : mEntities)
