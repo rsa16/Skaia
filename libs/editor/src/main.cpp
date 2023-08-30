@@ -40,6 +40,7 @@ public:
 	};
 	void Render() override {};
 	void Cleanup() override {};
+	void HandleUserEvent(void* data = nullptr) override {};
 
 	void Update() override {
 		for (auto& entity : mEntities)
