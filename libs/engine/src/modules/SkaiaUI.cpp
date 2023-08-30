@@ -6,6 +6,8 @@
   LICENSE file in the root directory of this source tree.
 */
 
+#pragma once
+
 #include "SkaiaUI.h"
 #include <iostream>
 
@@ -165,7 +167,7 @@ namespace Skaia
             mFont = Font::FromDB(fontDB, fontName);;
             pRenderer = pr;
             mTexture = new Imaging::Texture(pRenderer);
-            mColor = {255, 255, 255};
+            mColor = {255};
         }
 
         void Text::SetFont(Font font)

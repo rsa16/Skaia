@@ -77,7 +77,7 @@ namespace Skaia
 
                 void LoadFont(std::string fontPath, int fontSize=12);
                 
-                bool RenderText(SDL_Renderer* pr, std::string text, Imaging::Texture* texture, Imaging::Color color={255, 255, 255});
+                bool RenderText(SDL_Renderer* pr, std::string text, Imaging::Texture* texture, Imaging::Color color={255});
 
                 int GetFontSize();
                 FontStyle GetFontStyle();

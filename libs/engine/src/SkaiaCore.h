@@ -23,6 +23,11 @@
 #endif
 
 namespace Skaia {
+	namespace Events
+    {
+        struct Event;
+    }
+
 	namespace Core {
 		#pragma region models
 		class ENGINE_API System 
@@ -36,6 +41,8 @@ namespace Skaia {
 				virtual void Update() = 0;
 
 				virtual void Cleanup() = 0;
+
+				virtual void HandleUserEvent(void* data = nullptr) = 0;
 		};
 
 		class ENGINE_API IComponentArray 

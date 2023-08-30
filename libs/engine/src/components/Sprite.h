@@ -22,7 +22,7 @@ namespace Skaia
         struct ENGINE_API Sprite 
         {
             Imaging::Texture* tex = nullptr;
-            Imaging::Color color = {0, 0, 0};
+            Imaging::Color color = {0};
             bool flipX = false;
             bool flipY = false;
             bool hasPhysics = false;

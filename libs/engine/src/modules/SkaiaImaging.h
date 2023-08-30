@@ -39,7 +39,7 @@ namespace Skaia
 
             Color();
             Color(int v);
-            Color(int v, float a)
+            Color(int v, float a);
             Color(int r, int g, int b, float a);
         };
 
