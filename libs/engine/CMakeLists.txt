@@ -23,6 +23,8 @@ set(Header_Files__Components
     "src/components/Sprite.h"
     "src/components/Rigidbody.h"
     "src/components/AudioSource.h"
+    "src/components/Map.h"
+    "src/components/Hierarchy.h"
 )
 source_group("Header Files\\Core Modules" FILES ${Header_Files__Components})
 
@@ -33,6 +35,7 @@ set(Header_Files__Systems
     "src/systems/WindowSystem.h"
     "src/systems/PhysicsSystem.h"
     "src/systems/AudioSystem.h"
+    "src/systems/MapSystem.h"
 )
 
 set(Resource_Files__Source_Files__Systems
@@ -42,6 +45,7 @@ set(Resource_Files__Source_Files__Systems
     "src/systems/WindowSystem.cpp"
     "src/systems/PhysicsSystem.cpp"
     "src/systems/AudioSystem.cpp"
+    "src/systems/MapSystem.cpp"
 )
 source_group("Resource Files\\Source Files\\Systems" FILES ${Resource_Files__Source_Files__Systems})
 
