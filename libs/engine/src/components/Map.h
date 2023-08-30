@@ -8,6 +8,7 @@
 
 #pragma once
 #include "SkaiaCore.h"
+#include <string>
 
 #ifdef _DEBUG
 	#undef main
