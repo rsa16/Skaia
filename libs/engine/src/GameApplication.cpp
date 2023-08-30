@@ -34,6 +34,8 @@ namespace Skaia
 		coordinator->RegisterComponent<Components::Sprite>();
 		coordinator->RegisterComponent<Components::RigidBody>();
 		coordinator->RegisterComponent<Components::AudioSource>();
+		coordinator->RegisterComponent<Components::Map>();
+		coordinator->RegisterComponent<Components::Hierarchy>();
 
 		// register default systems
 		TrackSystem<Systems::WindowSystem>();
@@ -42,6 +44,7 @@ namespace Skaia
 		TrackSystem<Systems::PhysicsSystem>();
 		TrackSystem<Systems::RenderSystem>();
 		TrackSystem<Systems::AudioSystem>();
+		TrackSystem<Systems::MapSystem>();
 
 		// sdl init stuff
 		SDL_Window* pWindow = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_RESIZABLE);
@@ -155,11 +158,8 @@ namespace Skaia
 			switch (ev->name) 
 			{
 				case Events::EventNames::KEYBOARD_EVENT:
-					inputSystem->HandleInput(ev);
+					inputSystem->HandleEvent(ev);
 					break;
-
-				case Events::EventNames::QUIT_EVENT:
-					return false;
 
 				case Events::EventNames::AUDIO_EVENT:
 					audioSystem->HandleEvent(ev);
@@ -168,6 +168,18 @@ namespace Skaia
 				case Events::EventNames::PHYSICS_EVENT:
 					physicsSystem->HandleEvent(ev);
 					break;
+
+				case Events::EventNames::QUIT_EVENT:
+					return false;
+
+				case Events::EventNames::USER_EVENT:
+				{
+					for (auto& const pair : mSystems)
+					{
+						auto const& system = pair.second;
+						system->HandleUserEvent(ev);
+					}
+				}
 			}
 		}
 		return true;

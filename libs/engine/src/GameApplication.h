@@ -20,6 +20,7 @@
 #include "systems/RenderSystem.h"
 #include "systems/PhysicsSystem.h"
 #include "systems/AudioSystem.h"
+#include "systems/MapSystem.h"
 
 #include "modules/SkaiaEvents.h"
 
