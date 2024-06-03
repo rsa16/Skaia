@@ -37,6 +37,13 @@
 
 namespace Skaia
 {
+    struct DataStructure
+    {
+        void* data;
+        void* data1 = nullptr;
+        void* data2 = nullptr;
+    };
+
     // ECSs
     using Entity = std::uint32_t;
     const Entity NullEntity = -1;
