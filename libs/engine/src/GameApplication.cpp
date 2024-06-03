@@ -21,7 +21,7 @@
 
 namespace Skaia
 {
-	GameApplication::GameApplication(Skaia::Core::Coordinator* c, const char* title, int width, int height, bool fullscreen)
+	GameApplication::GameApplication(Skaia::Core::Coordinator* c, const char* title, int width, int height, int scaleFactor, bool fullscreen)
 	{
 		coordinator = c;
 		coordinator->Initialize();
@@ -36,15 +36,20 @@ namespace Skaia
 		coordinator->RegisterComponent<Components::AudioSource>();
 		coordinator->RegisterComponent<Components::Map>();
 		coordinator->RegisterComponent<Components::Hierarchy>();
+		coordinator->RegisterComponent<Components::Collider>();
 
 		// register default systems
 		TrackSystem<Systems::WindowSystem>();
 		TrackSystem<Systems::InputSystem>();
 		TrackSystem<Systems::DebugSystem>();
 		TrackSystem<Systems::PhysicsSystem>();
+		TrackSystem<Systems::CollisionSystem>();
 		TrackSystem<Systems::RenderSystem>();
 		TrackSystem<Systems::AudioSystem>();
 		TrackSystem<Systems::MapSystem>();
+
+		mDisplayWidth = width / scaleFactor;
+		mDisplayHeight = height / scaleFactor;
 
 		// sdl init stuff
 		SDL_Window* pWindow = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_RESIZABLE);
@@ -67,8 +72,8 @@ namespace Skaia
 
 	void GameApplication::Start(int FPSLOCK )
 	{
-		Skaia::UI::FontDatabase fontDB;
 		Skaia::UI::Text* text;
+		using Skaia::UI::fontDB;
 
 		fontDB.LoadFont("data/fonts/roboto.ttf");
 		text = new Skaia::UI::Text(pRenderer, fontDB, "roboto");
@@ -125,7 +130,14 @@ namespace Skaia
 		for (auto const& pair : mSystems)
 		{
 			auto const& system = pair.second;
-			system->Initialize(pRenderer);
+
+			DataStructure m = {
+				.data = pRenderer,
+				.data1 = &mDisplayWidth,
+				.data2 = &mDisplayHeight
+			};
+
+			system->Initialize(&m);
 		}
 	}
 

@@ -21,6 +21,7 @@
 #include "systems/PhysicsSystem.h"
 #include "systems/AudioSystem.h"
 #include "systems/MapSystem.h"
+#include "systems/CollisionSystem.h"
 
 #include "modules/SkaiaEvents.h"
 
@@ -38,10 +39,13 @@ namespace Skaia {
 
 			bool fpsCounter = false;
 
+			int mDisplayWidth;
+			int mDisplayHeight;
+
 		public:
 			std::unordered_map<std::type_index, std::shared_ptr<Skaia::Core::System>> mSystems;
 			
-			GameApplication(Skaia::Core::Coordinator* c, const char* title, int width, int height, bool fullscreen = false);
+			GameApplication(Skaia::Core::Coordinator* c, const char* title, int width, int height, int scaleFactor, bool fullscreen = false);
 
 			void Initialize();
 			void Render();
