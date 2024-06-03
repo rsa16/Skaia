@@ -12,6 +12,7 @@ set(Header_Files
     "src/modules/SkaiaEvents.h"
     "src/modules/SkaiaUI.h"
     "src/modules/SkaiaAudio.h"
+    "src/modules/SkaiaIO.h"
 )
 source_group("Header Files" FILES ${Header_Files})
 
@@ -36,6 +37,7 @@ set(Header_Files__Systems
     "src/systems/PhysicsSystem.h"
     "src/systems/AudioSystem.h"
     "src/systems/MapSystem.h"
+    "src/systems/CollisionSystem.h"
 )
 
 set(Resource_Files__Source_Files__Systems
@@ -46,6 +48,7 @@ set(Resource_Files__Source_Files__Systems
     "src/systems/PhysicsSystem.cpp"
     "src/systems/AudioSystem.cpp"
     "src/systems/MapSystem.cpp"
+    "src/systems/CollisionSystem.cpp"
 )
 source_group("Resource Files\\Source Files\\Systems" FILES ${Resource_Files__Source_Files__Systems})
 
@@ -56,6 +59,7 @@ set(Resource_Files__Source_Files
     "src/modules/SkaiaEvents.cpp"
     "src/modules/SkaiaUI.cpp"
     "src/modules/SkaiaAudio.cpp"
+    "src/modules/SkaiaIO.cpp"
 )
 source_group("Resource Files\\Source Files" FILES ${Resource_Files__Source_Files})
 
@@ -105,6 +109,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     "${CMAKE_SOURCE_DIR}/external/sdl/include"
     "${CMAKE_SOURCE_DIR}/external/sdl_ttf"
     "${CMAKE_SOURCE_DIR}/external/box2d/include"
+    "${CMAKE_SOURCE_DIR}/external/yaml-cpp/include"
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
 )
 
@@ -175,14 +180,23 @@ set(ADDITIONAL_LIBRARY_DEPENDENCIES
     "SDL2_ttf"
     "box2d"
     "SDL2_mixer-static"
+    "yaml-cpp"
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
 
+IF(CMAKE_BUILD_TYPE MATCHES Release)
+    set(CONFIGURATION_TYPE Release)
+ENDIF()
+
+IF(CMAKE_BUILD_TYPE MATCHES Debug)
+    set(CONFIGURATION_TYPE Debug)
+ENDIF()
+
 target_link_directories(${PROJECT_NAME} PRIVATE
-    "${CMAKE_SOURCE_DIR}/build/external/sdl/Release"
-    "${CMAKE_SOURCE_DIR}/build/external/sdl_image/Release"
-    "${CMAKE_SOURCE_DIR}/build/external/sdl_ttf/Release"
-    "${CMAKE_SOURCE_DIR}/build/external/box2d/bin/Release"
-    "${CMAKE_SOURCE_DIR}/build/external/sdl_mixer/Release"
+    "${CMAKE_SOURCE_DIR}/build/external/sdl/${CONFIGURATION_TYPE}"
+    "${CMAKE_SOURCE_DIR}/build/external/sdl_image/${CONFIGURATION_TYPE}"
+    "${CMAKE_SOURCE_DIR}/build/external/sdl_ttf/${CONFIGURATION_TYPE}"
+    "${CMAKE_SOURCE_DIR}/build/external/box2d/bin/${CONFIGURATION_TYPE}"
+    "${CMAKE_SOURCE_DIR}/build/external/sdl_mixer/${CONFIGURATION_TYPE}"
 )
 

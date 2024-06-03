@@ -79,6 +79,12 @@ include(cmake/GlobalSettingsInclude.cmake OPTIONAL)
 ################################################################################
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+set(CMAKE_DEBUG_POSTFIX "")
+set(SDL_CMAKE_DEBUG_POSTFIX "")
+set(SDL2IMAGE_DEBUG_POSTFIX "")
+set(SDL2MIXER_DEBUG_POSTFIX "")
+set(SDL2TTF_DEBUG_POSTFIX "")
+
 ################################################################################
 # Sub-projects
 ################################################################################
@@ -92,6 +98,7 @@ add_subdirectory(external/sdl_image)
 add_subdirectory(external/sdl_ttf)
 add_subdirectory(external/sdl_mixer)
 add_subdirectory(external/box2d)
+add_subdirectory(external/yaml-cpp)
 
 add_subdirectory(libs/engine)
 add_subdirectory(libs/editor)
