@@ -18,6 +18,11 @@
 
 namespace Skaia
 {
+    namespace UI
+    {
+        // SDL_Texture* UITexture;
+    }
+
     namespace Systems
     {
         class ENGINE_API RenderSystem : 
@@ -26,6 +31,8 @@ namespace Skaia
             private:
                 Skaia::Core::Coordinator* coordinator;
                 SDL_Renderer* pRenderer;
+                SDL_Texture* displayTex;
+                SDL_Rect displayRect;
 
             public:
                 RenderSystem(Skaia::Core::Coordinator* coordinator);

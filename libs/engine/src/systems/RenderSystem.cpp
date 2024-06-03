@@ -10,6 +10,7 @@
 
 #include <SDL.h>
 #include "systems/RenderSystem.h"
+#include "Types.h"
 #include <iostream>
 
 #ifdef _DEBUG
@@ -31,19 +32,34 @@ namespace Skaia
 
         void RenderSystem::Initialize(void* data)
         {
-            pRenderer = (SDL_Renderer*)data;
+            DataStructure* dataStruct = (DataStructure*)data;
+
+            pRenderer = (SDL_Renderer*)dataStruct->data;
+            displayTex = SDL_CreateTexture(pRenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, *((int*)dataStruct->data1), *((int*)dataStruct->data2));
+
+            displayRect.w = *((int*)dataStruct->data1);
+            displayRect.h = *((int*)dataStruct->data2);
+            displayRect.x = 0;
+            displayRect.y = 0;
+
+            if (displayTex == nullptr) {
+                std::cout << "An error occured creating the display texture: " << SDL_GetError() << std::endl;
+            }
 
             std::cout << "Render System Initalized" << "\n";
         }
 
         void RenderSystem::Render()
         {
+            SDL_SetRenderTarget(pRenderer, NULL);
+            SDL_RenderCopy(pRenderer, displayTex, NULL, NULL);
             SDL_RenderPresent(pRenderer);
         }
 
         void RenderSystem::Update() {
             SDL_SetRenderDrawColor(pRenderer, 0, 0, 0, 255);
             SDL_RenderClear(pRenderer);
+            SDL_SetRenderTarget(pRenderer, displayTex);
 
             for (auto const& entity : mEntities)
             {

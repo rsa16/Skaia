@@ -17,3 +17,6 @@
 	path = external/sdl_mixer
 	url = https://github.com/libsdl-org/SDL_mixer.git
 	branch = SDL2
+[submodule "external/yaml-cpp"]
+	path = external/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp/
