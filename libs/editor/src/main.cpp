@@ -74,7 +74,7 @@ public:
 class PhysicsSystem2D : public Skaia::Core::System {
 private:
 	Skaia::Core::Coordinator* coordinator;
-	float GRAVITY_CONSTANT = -1.5f;
+	float GRAVITY_CONSTANT = 1.5f;
 	float originalHeight;
 
 public:
@@ -91,7 +91,7 @@ public:
 	}
 	
 	void Initialize(void* data = nullptr) override {
-		for (auto& entity : mEntites)
+		for (auto& entity : mEntities)
 		{
 			auto& entityTransform = coordinator->GetComponent<Components::Transform>(entity);
 			auto& entityRigid = coordinator->GetComponent<Rigidbody2D>(entity);
@@ -131,21 +131,21 @@ public:
 			// 	entityRigid.isJumping = false;
 			// }
 
+			float timeRel = entityRigid.airTimer  * entityRigid.airTimer;
+			float currentHeight = (0.5f * GRAVITY_CONSTANT * timeRel) + (entityRigid.momentumY * entityRigid.airTimer) + entityRigid.posBeforeCollision;
+
+			entityTransform.y = currentHeight;
+			std::cout << currentHeight << "\n";
+
 			if (!checkCollision(Skaia::Collision::State::ON_TOP) && !checkCollision(Skaia::Collision::State::ON_BOTTOM))
 			{
-				entityRigid.airTimer += 0.06f;
+				entityRigid.airTimer += 0.1f;
 				std::cout << "nocollsion" << "\n";
 			} else {
 				entityRigid.airTimer = 0;
 				//entityRigid.isJumping = false;
 				entityRigid.posBeforeCollision = entityTransform.y;
 			}
-
-			float timeRel = entityRigid.airTimer  * entityRigid.airTimer;
-			float currentHeight = (0.5f * GRAVITY_CONSTANT * timeRel) + (entityRigid.momentumY * entityRigid.airTimer) + entityRigid.posBeforeCollision;
-
-			entityTransform.y = currentHeight;
-			std::cout << currentHeight << "\n";
 		}
 	};
 };
@@ -195,8 +195,10 @@ public:
 			};
 			
 			if (entityInputComp.UP_PRESSED) {
-				entityRigid.momentumY = 3.0f;
+				entityRigid.momentumY = -3.0f;
 				entityRigid.isJumping = true;
+
+				std::cout << "jump" << "\n";
 			}
 			
 			if (entityInputComp.LEFT_PRESSED) {
