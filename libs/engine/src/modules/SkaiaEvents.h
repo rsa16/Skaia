@@ -97,7 +97,6 @@ namespace Skaia
 
         /// @brief Custom events for users to create
         struct UserEvent : Event {
-            Uint32 windowID;
             Sint32 code;
             void* data1;
             void* data2;
