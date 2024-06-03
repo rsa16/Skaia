@@ -114,5 +114,7 @@ namespace Skaia
 
                 void Render(int x, int y);
         };
+
+        extern FontDatabase fontDB;
     }
 }

@@ -135,9 +135,6 @@ namespace Skaia
                 if (mTex == NULL)
                 {
                     printf( "Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError() );
-                } else {
-                    texture->SetWidth(surf->w);
-                    texture->SetHeight(surf->h);
                 }
             }
 
@@ -198,5 +195,7 @@ namespace Skaia
         {
             mTexture->Render(x, y);
         }
+
+        FontDatabase fontDB;
     }
 }
