@@ -108,13 +108,13 @@ namespace Skaia
 
                         if (entityCollider.boundingBox.right - 10 > otherCollider.boundingBox.left && entityCollider.boundingBox.left + 10 < otherCollider.boundingBox.right)
                         {
-                            if (otherTransform.y > entityTransform.y)
+                            if (otherTransform.y >= entityTransform.y)
                             {
                                 AddCollision(Collision::State::ON_BOTTOM);
-                                std::cout << "breakpoint" << "\n";
+                                // std::cout << "breakpoint" << "\n";
                                 continue;
 
-                            } else if (otherTransform.y < entityTransform.y) {
+                            } else if (otherTransform.y <= entityTransform.y) {
                                 AddCollision(Collision::State::ON_TOP);
                                 continue;
                             }
@@ -122,11 +122,11 @@ namespace Skaia
 
                         if (entityCollider.boundingBox.top - 10 < otherCollider.boundingBox.bottom && entityCollider.boundingBox.bottom + 10 > otherCollider.boundingBox.top)
                         {
-                            if (otherTransform.x > entityTransform.x) {
+                            if (otherTransform.x >= entityTransform.x) {
                                 AddCollision(Collision::State::ON_RIGHT);
                                 continue;
 
-                            } else if (otherTransform.x < entityTransform.x) {
+                            } else if (otherTransform.x <= entityTransform.x) {
                                 AddCollision(Collision::State::ON_LEFT);
                                 continue;
                             }
