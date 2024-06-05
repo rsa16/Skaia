@@ -124,26 +124,30 @@ public:
 				else return hasState;
 			};
 
-			// if (entityRigid.isJumping && (entityRigid.airTimer < 4)) {
-			// 	entityRigid.airTimer += 0.06f;
-			// } else {
-			// 	entityRigid.airTimer = 0;
-			// 	entityRigid.isJumping = false;
-			// }
+			if (entityRigid.isJumping) 
+			{
+				entityRigid.posBeforeCollision -= 5;
+			}
 
 			float timeRel = entityRigid.airTimer  * entityRigid.airTimer;
 			float currentHeight = (0.5f * GRAVITY_CONSTANT * timeRel) + (entityRigid.momentumY * entityRigid.airTimer) + entityRigid.posBeforeCollision;
 
 			entityTransform.y = currentHeight;
-			std::cout << currentHeight << "\n";
 
 			if (!checkCollision(Skaia::Collision::State::ON_TOP) && !checkCollision(Skaia::Collision::State::ON_BOTTOM))
 			{
-				entityRigid.airTimer += 0.1f;
-				std::cout << "nocollsion" << "\n";
+				entityRigid.airTimer += 0.5f;
 			} else {
 				entityRigid.airTimer = 0;
-				//entityRigid.isJumping = false;
+				entityRigid.isJumping = false;
+				entityRigid.momentumY = 0;
+
+				if (checkCollision(Skaia::Collision::State::ON_BOTTOM)) {
+					entityTransform.y = entityCollider.collisions[Skaia::Collision::State::ON_BOTTOM]->boundingBox.top - entityTransform.height;
+				} else {
+					entityTransform.y = entityCollider.collisions[Skaia::Collision::State::ON_TOP]->boundingBox.bottom + entityTransform.height;
+				}
+
 				entityRigid.posBeforeCollision = entityTransform.y;
 			}
 		}
@@ -194,11 +198,11 @@ public:
 				else return hasState; // return false
 			};
 			
-			if (entityInputComp.UP_PRESSED) {
-				entityRigid.momentumY = -3.0f;
+			if (entityInputComp.UP_PRESSED && !entityRigid.isJumping) {
+				entityRigid.momentumY = -15.0f;
 				entityRigid.isJumping = true;
 
-				std::cout << "jump" << "\n";
+				// std::cout << "jump" << "\n";
 			}
 			
 			if (entityInputComp.LEFT_PRESSED) {
@@ -265,10 +269,10 @@ void createPlatforms()
 
 	coordinator.AddComponent<Components::Transform>(platform,
 		Components::Transform {
-			.x = 300,
+			.x = 100,
 			.y = 400,
 
-			.width = 200,
+			.width = 400,
 			.height = 30
 		}
 	);
@@ -306,6 +310,30 @@ void createPlatforms()
 	);
 
 	coordinator.AddComponent<Components::Collider>(platform2,
+		Components::Collider {
+			.boundingBox = { -1, -1, -1, -1 },
+			.collisionTag = "ground"
+		}
+	);
+
+	Skaia::Entity platform3 = coordinator.CreateEntity();
+	coordinator.AddComponent<Components::Transform>(platform3,
+		Components::Transform {
+			.x = 300,
+			.y = 200,
+
+			.width = 200,
+			.height = 30
+		}
+	);
+
+	coordinator.AddComponent<Components::Sprite>(platform3, 
+		Components::Sprite {
+			.color = { 255, 0, 0, 1.0f }
+		}
+	);
+
+	coordinator.AddComponent<Components::Collider>(platform3,
 		Components::Collider {
 			.boundingBox = { -1, -1, -1, -1 },
 			.collisionTag = "ground"
